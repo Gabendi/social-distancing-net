@@ -16,19 +16,12 @@ class Person:
     """
     maxid=0
     def __init__(self):
-        self.id=self.getNewID()
+        self.id=self._getNewID()
         self.bounding_boxes=[]
         self.inGroupWith=[]
 
     @classmethod
-    def getNewID(cls)->int:
-        """Generates a new unique id for a person
-
-        Returns
-        -------
-            int
-                new unique id
-        """
+    def _getNewID(cls)->int:
         newid=maxid
         maxid+=1
         return newid
