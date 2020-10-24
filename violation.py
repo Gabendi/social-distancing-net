@@ -12,7 +12,7 @@ class Violation:
             time of the violation in unix timestamp
     """
 
-    def __init__(self,x:int,y:int,time:int):
+    def __init__(self,x:int,y:int,time:int)->None:
         """
         Parameters
         ----------

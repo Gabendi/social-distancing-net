@@ -1,3 +1,4 @@
+from typing import List
 from bounding_box import BoundingBox
 
 class Person:
@@ -15,14 +16,14 @@ class Person:
             If a person walks together with others, they are a group or family.
     """
     maxid=0
-    def __init__(self):
+    def __init__(self)->None:
         self.id=self._getNewID()
-        self.bounding_boxes=[]
-        self.inGroupWith=[]
+        self.bounding_boxes=List[BoundingBox]
+        self.inGroupWith=List[Person]
 
     @classmethod
     def _getNewID(cls)->int:
-        newid=maxid
-        maxid+=1
+        newid=cls.maxid
+        cls.maxid+=1
         return newid
 

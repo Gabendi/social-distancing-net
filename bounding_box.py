@@ -13,7 +13,7 @@ class BoundingBox:
         height : int
             height of the boundingbox in pixels
     """
-    def __init__(self,left:int,top:int,width:int,height:int):
+    def __init__(self,left:int,top:int,width:int,height:int)->None:
         """
         Parameters
         ----------

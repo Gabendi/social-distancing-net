@@ -1,3 +1,4 @@
+from typing import List
 import numpy
 class VideoFrame:
     """
@@ -14,7 +15,7 @@ class VideoFrame:
     """
     width=1280
     height=720
-    def __init__(self,pixels):
+    def __init__(self,pixels)->None:
         """
 
         Parameters

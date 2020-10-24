@@ -5,8 +5,8 @@ from numpy import expand_dims
 from PIL import Image
 from keras.preprocessing.image import img_to_array
 from matplotlib import pyplot
-import VideoFrame
-import BoundingBox
+from video_frame import VideoFrame
+from bounding_box import BoundingBox
 
 class PeopleDetector:
     """
@@ -20,7 +20,7 @@ class PeopleDetector:
     def __init__(self):
         self.model = load_model('model.h5')
 
-    def load_image_pixels(image, shape = (512,512)):
+    def load_image_pixels(self, image, shape = (512,512)):
         """ kép + modell számára elvárt méret -> előfeldolgozott kép + eredeti méret """
 
         height, width, _= image.shape
@@ -31,7 +31,7 @@ class PeopleDetector:
         image = expand_dims(image, 0)
         return image, width, height
 
-    def get_boxes(boxes, labels, thresh):
+    def get_boxes(self, boxes, labels, thresh):
         """ Minden dobozra minden címkét letesztel, egy dobozra akár többet is """
     
         v_boxes, v_labels, v_scores = list(), list(), list()
@@ -44,7 +44,7 @@ class PeopleDetector:
 
         return v_boxes, v_labels, v_scores
 
-    def correct_yolo_boxes(boxes, image_h, image_w, net_h, net_w):  
+    def correct_yolo_boxes(self, boxes, image_h, image_w, net_h, net_w):  
         """ Itt átírtam az eredetit mert az nem ment """
         for i in range(len(boxes)):
             boxes[i].xmin = int(boxes[i].xmin * image_w)
@@ -52,7 +52,7 @@ class PeopleDetector:
             boxes[i].ymin = int(boxes[i].ymin * image_h)
             boxes[i].ymax = int(boxes[i].ymax * image_h)
 
-    def detect(frame, input_w = 1024, input_h = 1024, class_threshold = 0.6, labels = ["person"], anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33,23]]):
+    def detect(self, frame:VideoFrame, input_w = 1024, input_h = 1024, class_threshold = 0.6, labels = ["person"], anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33,23]])->list[BoundingBox]:
         """ 
             Bemeneti parméterek:
                 input_w/h: modell bemeneti mérete
@@ -74,19 +74,19 @@ class PeopleDetector:
                 scores: ~konfidencia
         """
     
-        image, image_w, image_h = load_image_pixels(frame,(input_w, input_h))
+        image, image_w, image_h = self.load_image_pixels(frame,(input_w, input_h))
     
-        yhat = model.predict(image)
+        yhat = self.model.predict(image)
         
         boxes = list()
         for i in range(len(yhat)):
             boxes += yolo.decode_netout(yhat[i][0], anchors[i], class_threshold, input_h, input_w)
         
-        correct_yolo_boxes(boxes, image_h, image_w, input_h, input_w)
+        self.correct_yolo_boxes(boxes, image_h, image_w, input_h, input_w)
     
         yolo.do_nms(boxes, 0.5)
     
-        boxes, labels, scores = get_boxes(boxes, labels, class_threshold)
+        boxes, labels, scores = self.get_boxes(boxes, labels, class_threshold)
     
         ret_boxes = []
         for box in boxes:

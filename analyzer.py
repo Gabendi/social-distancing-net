@@ -1,4 +1,8 @@
+from typing import List
+from violation import Violation
 from video_frame import VideoFrame
+
+from tracker import Tracker
 
 class Analyzer:
     """
@@ -12,11 +16,13 @@ class Analyzer:
         violations : Violation[]
             violations happened on footage
     """
-    def __init__(self):
-        self.video=[]
-        self.violations=[]
+    def __init__(self)->None:
+        self.video=List[VideoFrame]
+        self.violations=List[Violation]
+        self._tracker=Tracker()
+        
     
-    def AddVideoFrame(self, video_frame:VideoFrame):
+    def add_video_frame(self, video_frame:VideoFrame)->None:
         """Recieves and analizes the new vide frame.
         Updates, the violations array with the new violations found
 
@@ -25,8 +31,10 @@ class Analyzer:
             video_frame : VideoFrame
                 New VideFrame
         """
+        last_video_frame=self.video[len(self.video)-1] if len(self.video)>0 else None
         self.video.append(video_frame)
-        #TODO call object detection
+        
+        self._tracker.updateTrajectories(video_frame,last_video_frame)
         #TODO call CalculateDistanceViolations
         raise NotImplementedError()
 
