@@ -38,5 +38,5 @@ class Analyzer:
         #TODO call CalculateDistanceViolations
         raise NotImplementedError()
 
-    def Calibrate(self,video_frame:VideoFrame):
+    def calibrate(self,video_frame:VideoFrame):
         raise NotImplementedError()
