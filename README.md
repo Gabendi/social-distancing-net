@@ -16,3 +16,7 @@ keras 2.2.4
 
 
 [Trello](https://trello.com/b/hxlqbCye/socialdistancingnet)
+
+## Classdiagram
+
+![class_diagram](ClassDiagram1.svg)
