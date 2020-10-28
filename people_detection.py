@@ -24,7 +24,8 @@ class PeopleDetector:
         """ kép + modell számára elvárt méret -> előfeldolgozott kép + eredeti méret """
 
         height, width, _= image.shape
-        image = Image.fromarray(image).resize(shape)
+        image = Image.fromarray(image)
+        image = image.resize(shape)
         image = img_to_array(image)
         image = image.astype('float32')
         image /= 255.0
@@ -52,7 +53,7 @@ class PeopleDetector:
             boxes[i].ymin = int(boxes[i].ymin * image_h)
             boxes[i].ymax = int(boxes[i].ymax * image_h)
 
-    def detect(self, frame:VideoFrame, input_w = 1024, input_h = 1024, class_threshold = 0.6, labels = ["person"], anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33,23]])->list[BoundingBox]:
+    def detect(self, frame:VideoFrame, input_w = 1024, input_h = 1024, class_threshold = 0.6, labels = ["person"], anchors = [[116,90, 156,198, 373,326], [30,61, 62,45, 59,119], [10,13, 16,30, 33,23]]):
         """ 
             Bemeneti parméterek:
                 input_w/h: modell bemeneti mérete
