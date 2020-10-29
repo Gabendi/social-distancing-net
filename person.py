@@ -33,7 +33,7 @@ class Person:
     def __init__(self)->None:
         self.id=self._getNewID()
         self.bounding_boxes=List[BoundingBox]
-        self.inGroupWith=List[Person]
+        self.inGroupWith=[]
         self.coordinates=[]
 
     @classmethod
