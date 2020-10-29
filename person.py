@@ -42,9 +42,9 @@ class Person:
         cls.maxid+=1
         return newid
     
-    def setCoordinates(self, x = None, y = None) -> None:
+    def addCoordinates(self, x = None, y = None) -> None:
         """
-            Transzformálás után adott időlippanat x-y koordinátájának beállítása
+            Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.
             TODO: ezt majd Jonatánnak kéne hívni
                 Egyenlőre időt nem tárol, amelyik időpillanban nincs adat ott None van
         """
