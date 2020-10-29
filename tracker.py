@@ -35,9 +35,9 @@ class Tracker:
         Parameters
         ----------
             d : int
-                distance
+                maximum distance
             dt : int
-                min seconds (sec * fps)
+                minimum seconds (sec * fps)
         """
         for i, p1 in enumerate(self.activePeople):
             for j, p2 in enumerate(self.activePeople):
