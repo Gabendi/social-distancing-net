@@ -41,7 +41,9 @@ class Tracker:
         npscores=np.resize(npscores,(lenBB,1))
         bbs=np.hstack((npbb,npscores))
         objs=self._sort.update(bbs)
-        for person in self._analyzer.activePeople:
+        activePeople:List[Person]=self._analyzer.activePeople
+        to_delete=[]
+        for person in activePeople:
             found=False
             for obj in objs:
                 if obj[4]==person.id:
@@ -50,13 +52,21 @@ class Tracker:
                     obj[4]=-1
                     break
             if not found:
+                countNone=0
+                for bbid in range(1,min(len(person.bounding_boxes),6)):
+                    if person.bounding_boxes[-bbid] is None:
+                        countNone+=1
+                if(countNone==5):
+                    to_delete.append(person)
                 person.bounding_boxes.append(None)
         for obj in objs:
             if obj[4]!=-1:
                 newPerson=Person()
                 newPerson.id=obj[4]
                 newPerson.bounding_boxes.append(BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
-                self._analyzer.activePeople.append(newPerson)            
+                self._analyzer.activePeople.append(newPerson)   
+        for d in to_delete:
+            self._analyzer.activePeople.remove(d)
 
         
 

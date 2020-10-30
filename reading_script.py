@@ -1,3 +1,4 @@
+from yolo3_one_file_to_detect_them_all import bbox_iou
 from analyzer import Analyzer
 import cv2
 import sys
@@ -27,17 +28,17 @@ def runStream(videoUrl):
         ret, frame = vc.read()
      #   img, width, height = peopleDetector.load_image_pixels(frame, frame.shape)
         print(frame.shape) 
-        #frame = cv2.resize(frame, (1920//4, 1080//4))  
+        frame = cv2.resize(frame, (1920//4, 1080//4))  
         analyzer.add_video_frame(frame)
-        bboxes=[ p.bounding_boxes[-1] for p in analyzer.activePeople]
+        print(f"activePeople {len(analyzer.activePeople)}")
         #(x,y,width,height) tuple
         #boxes, labels, scores = Detect(frame)
-		
-        for bbox in bboxes:
+        for person in analyzer.activePeople:
+            bbox=person.bounding_boxes[-1]
             if not(bbox is None):
-                x,y,w,h = bbox.top, bbox.left, bbox.width, bbox.height
-                cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 2)
-                cv2.putText(frame, 'Person', (x+w+10, y+h), 0, 0.3, (0,255,0))
+                x,y,w,h = bbox.left, bbox.top, bbox.width, bbox.height
+                frame=cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 1)
+                frame=cv2.putText(frame, f"Person {person.id}", (x+w+10, y+h), 0, 0.3, (0,255,0))
 		
         cv2.imshow('Human detection example', frame)
 		
