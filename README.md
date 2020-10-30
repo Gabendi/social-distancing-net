@@ -1,6 +1,7 @@
 # social-distancing-net
 
 ### requirements
+pre-trained model: https://drive.google.com/file/d/12oWMkaDhoNt-EhOYjNnhGMoMpYw53PlA/view?usp=sharing
 #### YOLO
 python 3.7.3 (3.6 is jó sztem)
 
