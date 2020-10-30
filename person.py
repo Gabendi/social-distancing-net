@@ -32,9 +32,9 @@ class Person:
     maxid=0
     def __init__(self)->None:
         self.id=self._getNewID()
-        self.bounding_boxes=List[BoundingBox]
-        self.inGroupWith=[]
-        self.coordinates=[]
+        self.bounding_boxes: List[BoundingBox]=[]
+        self.inGroupWith :List[Person]=[] 
+        self.coordinates :List[Coordinate]=[] 
 
     @classmethod
     def _getNewID(cls)->int:
