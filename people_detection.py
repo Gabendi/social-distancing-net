@@ -1,3 +1,4 @@
+from typing import List
 import yolo3_one_file_to_detect_them_all as yolo
 from tensorflow.keras.models import load_model
 import numpy as np

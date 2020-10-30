@@ -1,8 +1,11 @@
+from person import Person
 from typing import List
 from violation import Violation
 from video_frame import VideoFrame
 
 from tracker import Tracker
+
+from people_detection import PeopleDetector
 
 class Analyzer:
     """
@@ -15,11 +18,16 @@ class Analyzer:
             
         violations : Violation[]
             violations happened on footage
+        activePeople: Person[]
+            people currently on video
+        
     """
     def __init__(self)->None:
-        self.video=List[VideoFrame]
-        self.violations=List[Violation]
-        self._tracker=Tracker()
+        self.video:List[VideoFrame]=[]
+        self.violations:List[Violation]=[]
+        self.activePeople:List[Person]=[]
+        self._tracker=Tracker(self)
+        self._peopledetector=PeopleDetector()
         
     
     def add_video_frame(self, video_frame:VideoFrame)->None:
@@ -34,9 +42,11 @@ class Analyzer:
         last_video_frame=self.video[len(self.video)-1] if len(self.video)>0 else None
         self.video.append(video_frame)
         
-        self._tracker.updateTrajectories(video_frame,last_video_frame)
-        #TODO call CalculateDistanceViolations
-        raise NotImplementedError()
+        boundingboxes,scores=self._peopledetector.detect(video_frame);
+
+
+        self._tracker.updateTrajectories(video_frame,last_video_frame,boundingboxes,scores)
+        #self._tracker.groupTrajectories()
 
     def calibrate(self,video_frame:VideoFrame):
         raise NotImplementedError()

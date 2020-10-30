@@ -1,5 +1,9 @@
+from person import Person
+from bounding_box import BoundingBox
+from typing import List
 from video_frame import VideoFrame
-from people_detection import PeopleDetector
+from sort import Sort
+import numpy as np
 
 class Tracker:
     """
@@ -10,11 +14,13 @@ class Tracker:
         activePeople : Person[]
             list of people currently in the view of the camera
     """
-    def __init__(self) -> None:
-        self._peopledetector=PeopleDetector()
-        self.activePeople=[]
+    def __init__(self,analyzer) -> None:
+        self._sort=Sort()
+        self._analyzer=analyzer
+        pass
+        
 
-    def updateTrajectories(self,current:VideoFrame,last:VideoFrame=None)->None:
+    def updateTrajectories(self,current:VideoFrame,last:VideoFrame,bounding_boxes:List[BoundingBox],scores:List[float])->None:
         """
         Identifies new people on the videoFrame, tracks already identified people. Update groups
         Parameters
@@ -23,11 +29,36 @@ class Tracker:
                 New video frame
             last : VideoFrame, optional
                 The video frame before, by default None
-
+            bounding_boxes: BoundingBox[]
+                Detected boundingboxes on current frame
+            scores: float[]
+                Certanity score of boundingboxes
         """
-        current_bounding_boxes=self._peopledetector.detect(current)
+        lenBB=len(bounding_boxes);
+        bbs=np.zeros((lenBB,5))
+        npbb=np.array([[bb.left, bb.top, bb.left+bb.width,bb.top+bb.height] for bb in bounding_boxes])
+        npscores=np.array(scores)
+        npscores=np.resize(npscores,(lenBB,1))
+        bbs=np.hstack((npbb,npscores))
+        objs=self._sort.update(bbs)
+        for person in self._analyzer.activePeople:
+            found=False
+            for obj in objs:
+                if obj[4]==person.id:
+                    person.bounding_boxes.append(BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
+                    found=True
+                    obj[4]=-1
+                    break
+            if not found:
+                person.bounding_boxes.append(None)
+        for obj in objs:
+            if obj[4]!=-1:
+                newPerson=Person()
+                newPerson.id=obj[4]
+                newPerson.bounding_boxes.append(BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
+                self._analyzer.activePeople.append(newPerson)            
+
         
-        raise NotImplementedError()
 
     def groupTrajectories(self, d = 2, dt = 4 * 30)->None:
         """
@@ -39,8 +70,8 @@ class Tracker:
             dt : int
                 minimum seconds (sec * fps)
         """
-        for i, p1 in enumerate(self.activePeople):
-            for j, p2 in enumerate(self.activePeople):
+        for i, p1 in enumerate(self._analyzer.activePeople):
+            for j, p2 in enumerate(self._analyzer.activePeople):
                 if (i > j) and (p1 not in p2.inGroupWith):
                     t = 0
                     max_t = 0
