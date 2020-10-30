@@ -4,3 +4,7 @@ matplotlib >= 3.1.1
 opencv-python >= 4.1.0
 tensorflow >= 2.2
 keras >= 2.2.4
+
+filterpy==1.4.5
+scikit-image==0.17.2
+lap==0.4.0
