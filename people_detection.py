@@ -95,5 +95,5 @@ class PeopleDetector:
             width, height = x2 - x1, y2 - y1
             ret_boxes.append(BoundingBox(x1,y1,width,height))
 
-        return ret_boxes
+        return ret_boxes, scores
 
