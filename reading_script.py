@@ -22,7 +22,7 @@ def help():
 def runStream(videoUrl):
     vc = cv2.VideoCapture(videoUrl)
     analyzer=Analyzer()
-	
+
     print(videoUrl)
     while True:
         ret, frame = vc.read()
