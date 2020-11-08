@@ -8,6 +8,7 @@ from matplotlib import pyplot
 from matplotlib.patches import Rectangle
 import numpy as np
 from transformation import Transformation
+import time
 
 
 from people_detection import PeopleDetector
@@ -21,7 +22,7 @@ def help():
 	print('\n')
 
 
-def runStream(videoUrl):
+def runStream(videoUrl,sample_rate=0.2):
     vc = cv2.VideoCapture(videoUrl)
 
     frameWidth = 1920 // 4
@@ -32,13 +33,20 @@ def runStream(videoUrl):
     analyzer=Analyzer(transformation)
 
     print(videoUrl)
+    last_time=time.perf_counter()
+    counter=0
+    s=int(1/sample_rate)
     while True:
         ret, frame = vc.read()
      #   img, width, height = peopleDetector.load_image_pixels(frame, frame.shape)
+        if counter%s!=0: # process every s th frame
+            counter+=1
+            continue
+
         print(frame.shape) 
         frame = cv2.resize(frame, (frameWidth, frameHeight))  
         analyzer.add_video_frame(frame)
-        print(f"activePeople {len(analyzer.activePeople)}")
+        
 
 
 
@@ -63,6 +71,10 @@ def runStream(videoUrl):
             cv2.line(frame, from_p, to_p, color, 2)
 		
         cv2.imshow('Human detection example', frame)
+        current_time=time.perf_counter()
+        print(f"{(s)/(current_time-last_time):0.4f} fps")
+        last_time=current_time
+        counter+=1
 		
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
