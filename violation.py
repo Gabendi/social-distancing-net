@@ -1,3 +1,5 @@
+from person import Person
+
 class Violation:
     """
     A violation of social distancing
@@ -14,7 +16,7 @@ class Violation:
             true if this is an accepted violation between group members
     """
 
-    def __init__(self,x:int,y:int,time:int, accepted:booelan = False)->None:
+    def __init__(self,p1:Person,p2:Person,time:int, accepted:bool = False)->None:
         """
         Parameters
         ----------
@@ -27,7 +29,7 @@ class Violation:
             accepted: boolean
                 true if this is an accepted violation between group members
         """
-        self.x=x
-        self.y=y
+        self.p1=p1
+        self.p2=p2
         self.time=time
         self.accepted = accepted

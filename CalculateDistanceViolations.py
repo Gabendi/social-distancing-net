@@ -1,5 +1,6 @@
 
-
+from person import Person
+from violation import Violation  
 class CalculateDistanceViolations:
     """
         This class calculates the violations in each frame.
@@ -18,7 +19,7 @@ class CalculateDistanceViolations:
         self.t = 0
         self.minDist = minDist
 
-    def CalculateViolations(self, activePeople :List[Person]) -> list[Violation]:
+    def CalculateViolations(self, activePeople):
         """
         Calculates the last violations.
 
@@ -30,14 +31,8 @@ class CalculateDistanceViolations:
         returnViolations = []
         for i, p1 in enumerate(activePeople):
             for j, p2 in enumerate(activePeople):
-                if (i > j):
-                    if (p1.Coordinate.DistanceFrom(p2.Coordinate) < self.minDist):
-                        if p1 not in p2.inGroupWith:
-                            returnViolations.append(Violation(p1.Coordinate.x, p1.Coordinate.y, self.t))
-                            returnViolations.append(Violation(p2.Coordinate.x, p2.Coordinate.y, self.t))
-                        else:
-                            returnViolations.append(Violation(p1.Coordinate.x, p1.Coordinate.y, self.t, True))
-                            returnViolations.append(Violation(p2.Coordinate.x, p2.Coordinate.y, self.t, True))
+                if (i > j and p1.getCoordinate().DistanceFrom(p2.getCoordinate()) < self.minDist):
+                    returnViolations.append(Violation(p1, p2, self.t, p1 in p2.inGroupWith))
 
         self.t += 1
         return returnViolations

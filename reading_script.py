@@ -6,6 +6,8 @@ from tensorflow.keras.models import load_model
 from numpy import expand_dims
 from matplotlib import pyplot
 from matplotlib.patches import Rectangle
+import numpy as np
+from transformation import Transformation
 
 
 from people_detection import PeopleDetector
@@ -21,16 +23,26 @@ def help():
 
 def runStream(videoUrl):
     vc = cv2.VideoCapture(videoUrl)
-    analyzer=Analyzer()
+
+    frameWidth = 1920 // 4
+    frameHeight = 1080 //4
+    cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = "float32")
+    
+    transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
+    analyzer=Analyzer(transformation)
 
     print(videoUrl)
     while True:
         ret, frame = vc.read()
      #   img, width, height = peopleDetector.load_image_pixels(frame, frame.shape)
         print(frame.shape) 
-        frame = cv2.resize(frame, (1920//4, 1080//4))  
+        frame = cv2.resize(frame, (frameWidth, frameHeight))  
         analyzer.add_video_frame(frame)
         print(f"activePeople {len(analyzer.activePeople)}")
+
+
+
+
         #(x,y,width,height) tuple
         #boxes, labels, scores = Detect(frame)
         for person in analyzer.activePeople:
@@ -39,6 +51,16 @@ def runStream(videoUrl):
                 x,y,w,h = bbox.left, bbox.top, bbox.width, bbox.height
                 frame=cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 1)
                 frame=cv2.putText(frame, f"Person {person.id}", (x+w+10, y+h), 0, 0.3, (0,255,0))
+
+        for violation in analyzer.violations:
+            color = (255, 0, 0)
+            if violation.accepted:
+                color = (255, 255, 0)
+            if(violation.p1.getCenter() == None or violation.p2.getCenter() == None):
+                continue
+            from_p = (int(violation.p1.getCenter()[0]), int(violation.p1.getCenter()[1]))
+            to_p = (int(violation.p2.getCenter()[0]), int(violation.p2.getCenter()[1]))
+            cv2.line(frame, from_p, to_p, color, 2)
 		
         cv2.imshow('Human detection example', frame)
 		

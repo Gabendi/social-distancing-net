@@ -14,11 +14,15 @@ class Tracker:
         activePeople : Person[]
             list of people currently in the view of the camera
     """
-    def __init__(self,analyzer) -> None:
+    def __init__(self, analyzer) -> None:
         self._sort=Sort()
         self._analyzer=analyzer
         pass
-        
+    
+    def addBoundingBoxForPerson(self, person:Person, box:BoundingBox):
+        person.bounding_boxes.append(box)
+        x, y = self._analyzer.transformation.transformPoint(box.left+box.width/2, box.top+box.height)
+        person.addCoordinates(x, y)
 
     def updateTrajectories(self,current:VideoFrame,last:VideoFrame,bounding_boxes:List[BoundingBox],scores:List[float])->None:
         """
@@ -47,7 +51,7 @@ class Tracker:
             found=False
             for obj in objs:
                 if obj[4]==person.id:
-                    person.bounding_boxes.append(BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
+                    self.addBoundingBoxForPerson(person, BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
                     found=True
                     obj[4]=-1
                     break
@@ -63,7 +67,7 @@ class Tracker:
             if obj[4]!=-1:
                 newPerson=Person()
                 newPerson.id=obj[4]
-                newPerson.bounding_boxes.append(BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
+                self.addBoundingBoxForPerson(newPerson, BoundingBox(int(obj[0]),int(obj[1]),int(obj[2]-obj[0]),int(obj[3]-obj[1])))
                 self._analyzer.activePeople.append(newPerson)   
         for d in to_delete:
             self._analyzer.activePeople.remove(d)
