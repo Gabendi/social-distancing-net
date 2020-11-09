@@ -87,16 +87,12 @@ class Tracker:
         for i, p1 in enumerate(self._analyzer.activePeople):
             for j, p2 in enumerate(self._analyzer.activePeople):
                 if (i > j) and (p1 not in p2.inGroupWith):
-                    t = 0
-                    max_t = 0
-                    for k in range(len(p1.coordinates)):
-                        if (p1.coordinates[k].DistanceFrom(p2.coordinates[k]) <= d):
-                            t += 1
-                            if t > max_t:
-                                max_t = t
-                        else:
-                            t = 0
-                    if max_t >= dt:
-                        p1.inGroupWith.append(p2)
-                        p2.inGroupWith.append(p1)
+                    if ((len(p1.coordinates) >= dt) and (len(p2.coordinates) >= dt)):
+                        in_group = True
+                        for k in range(dt):
+                            if ((p1.coordinates[-k] != None) and (p2.coordinates[-k] != None) and (p1.coordinates[-k].DistanceFrom(p2.coordinates[-k]) > d)):
+                                in_group = False
+                        if in_group:
+                            p1.inGroupWith.append(p2)
+                            p2.inGroupWith.append(p1)
 
