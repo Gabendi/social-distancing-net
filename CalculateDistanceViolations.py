@@ -31,7 +31,7 @@ class CalculateDistanceViolations:
         returnViolations = []
         for i, p1 in enumerate(activePeople):
             for j, p2 in enumerate(activePeople):
-                if (i > j and p1.getCoordinate().DistanceFrom(p2.getCoordinate()) < self.minDist):
+                if (i > j and p1.getCoordinate()!=None and p2.getCoordinate()!=None and p1.getCoordinate().DistanceFrom(p2.getCoordinate()) < self.minDist):
                     returnViolations.append(Violation(p1, p2, self.t, p1 in p2.inGroupWith))
 
         self.t += 1

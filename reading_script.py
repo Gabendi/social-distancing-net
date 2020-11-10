@@ -22,7 +22,7 @@ def help():
 	print('\n')
 
 
-def runStream(videoUrl,sample_rate=0.2):
+def runStream(videoUrl,sample_rate=0.1):
     vc = cv2.VideoCapture(videoUrl)
 
     frameWidth = 1920 // 4

@@ -21,8 +21,11 @@ class Tracker:
     
     def addBoundingBoxForPerson(self, person:Person, box:BoundingBox):
         person.bounding_boxes.append(box)
-        x, y = self._analyzer.transformation.transformPoint(box.left+box.width/2, box.top+box.height)
-        person.addCoordinates(x, y)
+        if box==None:
+            person.coordinates.append(None)
+        else:
+            x, y = self._analyzer.transformation.transformPoint(box.left+box.width/2, box.top+box.height)
+            person.addCoordinates(x, y)
 
     def updateTrajectories(self,current:VideoFrame,last:VideoFrame,bounding_boxes:List[BoundingBox],scores:List[float])->None:
         """
@@ -62,7 +65,7 @@ class Tracker:
                         countNone+=1
                 if(countNone==5):
                     to_delete.append(person)
-                person.bounding_boxes.append(None)
+                self.addBoundingBoxForPerson(person,None)
         for obj in objs:
             if obj[4]!=-1:
                 newPerson=Person()

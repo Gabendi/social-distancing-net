@@ -41,17 +41,6 @@ class Person:
         newid=cls.maxid
         cls.maxid+=1
         return newid
-
-    def addBoundingBox(self, x = None, y = None) -> None:
-        """
-            Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.
-            TODO: ezt majd Jonatánnak kéne hívni
-                Egyenlőre időt nem tárol, amelyik időpillanban nincs adat ott None van
-        """
-        if x != None :
-            self.coordinates.append(Coordinate(x,y))
-        else:
-            self.coordinates.append(None)
     
     def addCoordinates(self, x = None, y = None) -> None:
         """
