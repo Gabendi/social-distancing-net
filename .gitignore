@@ -133,3 +133,5 @@ dmypy.json
 
 # keras models
 *.h5
+*.cfg
+*.weights
