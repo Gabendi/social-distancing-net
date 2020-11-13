@@ -14,9 +14,10 @@ class Tracker:
         activePeople : Person[]
             list of people currently in the view of the camera
     """
-    def __init__(self, analyzer) -> None:
+    def __init__(self, analyzer, minDist = 2) -> None:
         self._sort=Sort()
         self._analyzer=analyzer
+        self._minDist = minDist
         pass
     
     def addBoundingBoxForPerson(self, person:Person, box:BoundingBox):
@@ -78,7 +79,7 @@ class Tracker:
 
         
 
-    def groupTrajectories(self, d = 2, dt = 4 * 30)->None:
+    def groupTrajectories(self, dt = 4)->None:#4 * 30)->None:
         """
         Considers two individuals as being in the same group if they are less then d meters apart for at least dt seconds.
         Parameters
@@ -94,7 +95,7 @@ class Tracker:
                     if ((len(p1.coordinates) >= dt) and (len(p2.coordinates) >= dt)):
                         in_group = True
                         for k in range(dt):
-                            if ((p1.coordinates[-k] != None) and (p2.coordinates[-k] != None) and (p1.coordinates[-k].DistanceFrom(p2.coordinates[-k]) > d)):
+                            if ((p1.coordinates[-k] != None) and (p2.coordinates[-k] != None) and (p1.coordinates[-k].DistanceFrom(p2.coordinates[-k]) > self._minDist)):
                                 in_group = False
                         if in_group:
                             p1.inGroupWith.append(p2)

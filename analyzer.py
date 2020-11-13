@@ -5,7 +5,7 @@ from video_frame import VideoFrame
 
 from tracker import Tracker
 
-from people_detection import PeopleDetector
+from people_detection_2 import PeopleDetector
 from CalculateDistanceViolations import CalculateDistanceViolations
 
 class Analyzer:
@@ -23,14 +23,15 @@ class Analyzer:
             people currently on video
     """
     def __init__(self, transformation)->None:
+        self.transformation = transformation
+
         self.video:List[VideoFrame]=[]
         self.violations:List[Violation]=[]
         self.activePeople:List[Person]=[]
-        self._tracker=Tracker(self)
+        self._tracker=Tracker(self,transformation.transformedFrameWidth * 1.8)
         self._peopledetector=PeopleDetector()
 
         #Callibration calculations
-        self.transformation = transformation
         self.calculateDistanceViolations = CalculateDistanceViolations(transformation.transformedFrameWidth * 1.8)
 
 
@@ -50,10 +51,10 @@ class Analyzer:
         
         boundingboxes, scores=self._peopledetector.detect(video_frame)
 
-        self._tracker.updateTrajectories(video_frame,last_video_frame,boundingboxes,scores)
+        self._tracker.updateTrajectories(video_frame, last_video_frame, boundingboxes, scores)
         self._tracker.groupTrajectories()
 
         self.violations = self.calculateDistanceViolations.CalculateViolations(self.activePeople)
 
-    def calibrate(self,video_frame:VideoFrame):
+    def calibrate(self, video_frame : VideoFrame):
         raise NotImplementedError()
