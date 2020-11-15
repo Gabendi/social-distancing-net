@@ -46,6 +46,7 @@ class Tracker:
         npbb=np.array([[bb.left, bb.top, bb.left+bb.width,bb.top+bb.height] for bb in bounding_boxes])
         npscores=np.array(scores)
         npscores=np.resize(npscores,(lenBB,1))
+        npbb=np.resize(npbb,(len(npbb),4))
         bbs=np.hstack((npbb,npscores))
         objs=self._sort.update(bbs)
         activePeople:List[Person]=self._analyzer.activePeople

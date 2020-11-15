@@ -42,8 +42,11 @@ def runStream(videoUrl,sample_rate=0.1):
         if counter%s!=0: # process every s th frame
             counter+=1
             continue
-
+        if ret==False:
+            break
+        
         print(frame.shape) 
+        
         frame = cv2.resize(frame, (frameWidth, frameHeight))  
         analyzer.add_video_frame(frame)
         
