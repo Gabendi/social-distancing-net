@@ -25,8 +25,8 @@ def help():
 def runStream(videoUrl,sample_rate=0.1):
     vc = cv2.VideoCapture(videoUrl)
 
-    frameWidth = 1920 // 4
-    frameHeight = 1080 //4
+    frameWidth = 1920 // 2
+    frameHeight = 1080 // 2
     cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = "float32")
     
     transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
