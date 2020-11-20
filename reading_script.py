@@ -6,6 +6,7 @@ from tensorflow.keras.models import load_model
 from numpy import expand_dims
 from matplotlib import pyplot
 from matplotlib.patches import Rectangle
+import matplotlib.pyplot as plt
 import numpy as np
 from transformation import Transformation
 import time
@@ -36,6 +37,9 @@ def runStream(videoUrl,sample_rate=0.1):
     last_time=time.perf_counter()
     counter=0
     s=int(1/sample_rate)
+
+    heatMap = np.zeros((frameWidth, frameHeight))
+
     while True:
         ret, frame = vc.read()
      #   img, width, height = peopleDetector.load_image_pixels(frame, frame.shape)
@@ -48,11 +52,7 @@ def runStream(videoUrl,sample_rate=0.1):
         print(frame.shape) 
         
         frame = cv2.resize(frame, (frameWidth, frameHeight))  
-        analyzer.add_video_frame(frame)
-        
-
-
-
+        analyzer.add_video_frame(frame) 
 
         #(x,y,width,height) tuple
         #boxes, labels, scores = Detect(frame)
@@ -62,6 +62,11 @@ def runStream(videoUrl,sample_rate=0.1):
                 x,y,w,h = bbox.left, bbox.top, bbox.width, bbox.height
                 frame=cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 1)
                 frame=cv2.putText(frame, f"Person {person.id}", (x+w+10, y+h), 0, 0.3, (0,255,0))
+                # add bbox center to heatmap
+                for i in range(-5, 5):
+                    for j in range(-5, 5):
+                        if x + i > 0 and y + j > 0:
+                            heatMap[x + i][y + j] += 1
 
         for violation in analyzer.violations:
             color = (255, 0, 0)
@@ -81,7 +86,12 @@ def runStream(videoUrl,sample_rate=0.1):
 		
         if cv2.waitKey(1) & 0xFF == ord('q'):
             break
-		
+
+    #Display created heatmap
+    plt.imshow(heatMap, cmap='hot', interpolation='nearest')
+    plt.show()
+	
+    #Release resources
     vc.release()
     cv2.destroyAllWindows()
 	

@@ -14,7 +14,7 @@ class PeopleDetector:
             yolov2-tiny / yolov3-tiny / yolov3
     """
 
-    def __init__(self, model = "yolov2-tiny"):
+    def __init__(self, model = "yolov3-tiny"):
         self.net = cv2.dnn.readNetFromDarknet(model + ".cfg", model + ".weights")
         self.ln = self.net.getLayerNames()
         self.ln = [self.ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
