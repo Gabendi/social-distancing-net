@@ -1,0 +1,315 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.1" />
+<title>social-distancing-net.reading_script API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>social-distancing-net.reading_script</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from yolo3_one_file_to_detect_them_all import bbox_iou
+from analyzer import Analyzer
+import cv2
+import sys
+from tensorflow.keras.models import load_model
+from numpy import expand_dims
+from matplotlib import pyplot
+from matplotlib.patches import Rectangle
+import matplotlib.pyplot as plt
+import numpy as np
+from transformation import Transformation
+import time
+
+
+from people_detection import PeopleDetector
+
+
+
+def help()-&gt;None:
+    &#34;&#34;&#34;
+        Displays help message in console
+    &#34;&#34;&#34;
+    print(&#39;\n&#39;)
+    print(&#39;This script is for visualizing bounding-box estimations for detection of human bodies.&#39;)
+    print(&#39;Usage: python reading_script.py [VideoStream]&#39;)
+    print(&#39;\n&#39;)
+
+
+def runStream(videoUrl,sample_rate=0.1):
+    &#34;&#34;&#34;
+    Processes the prerecorded video, or webcam, and displays the analyzed video.
+    The program processes only a few selected videoframes for performance reasons.
+    Sample rate specifies what portion of the video is processed.
+    A video frame if processed if video_frame_index mod 1/sample_rate is 0.
+
+    At the end of the processing the program displays the density of the violations on a heatmap.
+
+    Parameters
+    ----------
+        videoUrl
+            Path of the prerecorded video file, if None the program processes the  webcam stream
+        sample_rate : float, optional
+            Sample rate of processing, by default 0.1
+    &#34;&#34;&#34;
+    vc = cv2.VideoCapture(videoUrl)
+
+    frameWidth = 1920 // 2
+    frameHeight = 1080 // 2
+    cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = &#34;float32&#34;)
+    
+    transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
+    analyzer=Analyzer(transformation)
+
+    print(videoUrl)
+    last_time=time.perf_counter()
+    counter=0
+    s=int(1/sample_rate)
+
+    heatMap = np.zeros((frameWidth, frameHeight))
+
+    while True:
+        ret, frame = vc.read()
+     #   img, width, height = peopleDetector.load_image_pixels(frame, frame.shape)
+        if counter%s!=0: # process every s th frame
+            counter+=1
+            continue
+        if ret==False:
+            break
+        
+        print(frame.shape) 
+        
+        frame = cv2.resize(frame, (frameWidth, frameHeight))  
+        analyzer.add_video_frame(frame) 
+
+        #(x,y,width,height) tuple
+        #boxes, labels, scores = Detect(frame)
+        for person in analyzer.activePeople:
+            bbox=person.bounding_boxes[-1]
+            if not(bbox is None):
+                x,y,w,h = bbox.left, bbox.top, bbox.width, bbox.height
+                frame=cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 1)
+                frame=cv2.putText(frame, f&#34;Person {person.id}&#34;, (x+w+10, y+h), 0, 0.3, (0,255,0))
+                # add bbox center to heatmap
+                for i in range(-5, 5):
+                    for j in range(-5, 5):
+                        if x + i &gt; 0 and y + j &gt; 0:
+                            heatMap[x + i][y + j] += 1
+
+        for violation in analyzer.violations:
+            color = (255, 0, 0)
+            if violation.accepted:
+                color = (255, 255, 0)
+            if(violation.p1.getCenter() == None or violation.p2.getCenter() == None):
+                continue
+            from_p = (int(violation.p1.getCenter()[0]), int(violation.p1.getCenter()[1]))
+            to_p = (int(violation.p2.getCenter()[0]), int(violation.p2.getCenter()[1]))
+            cv2.line(frame, from_p, to_p, color, 2)
+                
+        cv2.imshow(&#39;Human detection example&#39;, frame)
+        current_time=time.perf_counter()
+        print(f&#34;{(s)/(current_time-last_time):0.4f} fps&#34;)
+        last_time=current_time
+        counter+=1
+                
+        if cv2.waitKey(1) &amp; 0xFF == ord(&#39;q&#39;):
+            break
+
+    #Display created heatmap
+    plt.imshow(heatMap, cmap=&#39;hot&#39;, interpolation=&#39;nearest&#39;)
+    plt.show()
+        
+    #Release resources
+    vc.release()
+    cv2.destroyAllWindows()
+        
+if __name__ == &#34;__main__&#34;:
+    if(len(sys.argv) &lt; 2):
+        print(&#39;\nToo few arguments, see usage:&#39;)
+        help()
+    else:
+        VIDEO_STREAM = sys.argv[1]
+        runStream(VIDEO_STREAM)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="social-distancing-net.reading_script.help"><code class="name flex">
+<span>def <span class="ident">help</span></span>(<span>) ‑> NoneType</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Displays help message in console</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def help()-&gt;None:
+    &#34;&#34;&#34;
+        Displays help message in console
+    &#34;&#34;&#34;
+    print(&#39;\n&#39;)
+    print(&#39;This script is for visualizing bounding-box estimations for detection of human bodies.&#39;)
+    print(&#39;Usage: python reading_script.py [VideoStream]&#39;)
+    print(&#39;\n&#39;)</code></pre>
+</details>
+</dd>
+<dt id="social-distancing-net.reading_script.runStream"><code class="name flex">
+<span>def <span class="ident">runStream</span></span>(<span>videoUrl, sample_rate=0.1)</span>
+</code></dt>
+<dd>
+<div class="desc"><p>Processes the prerecorded video, or webcam, and displays the analyzed video.
+The program processes only a few selected videoframes for performance reasons.
+Sample rate specifies what portion of the video is processed.
+A video frame if processed if video_frame_index mod 1/sample_rate is 0.</p>
+<p>At the end of the processing the program displays the density of the violations on a heatmap.</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>videoUrl
+    Path of the prerecorded video file, if None the program processes the  webcam stream
+sample_rate : float, optional
+    Sample rate of processing, by default 0.1
+</code></pre></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def runStream(videoUrl,sample_rate=0.1):
+    &#34;&#34;&#34;
+    Processes the prerecorded video, or webcam, and displays the analyzed video.
+    The program processes only a few selected videoframes for performance reasons.
+    Sample rate specifies what portion of the video is processed.
+    A video frame if processed if video_frame_index mod 1/sample_rate is 0.
+
+    At the end of the processing the program displays the density of the violations on a heatmap.
+
+    Parameters
+    ----------
+        videoUrl
+            Path of the prerecorded video file, if None the program processes the  webcam stream
+        sample_rate : float, optional
+            Sample rate of processing, by default 0.1
+    &#34;&#34;&#34;
+    vc = cv2.VideoCapture(videoUrl)
+
+    frameWidth = 1920 // 2
+    frameHeight = 1080 // 2
+    cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = &#34;float32&#34;)
+    
+    transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
+    analyzer=Analyzer(transformation)
+
+    print(videoUrl)
+    last_time=time.perf_counter()
+    counter=0
+    s=int(1/sample_rate)
+
+    heatMap = np.zeros((frameWidth, frameHeight))
+
+    while True:
+        ret, frame = vc.read()
+     #   img, width, height = peopleDetector.load_image_pixels(frame, frame.shape)
+        if counter%s!=0: # process every s th frame
+            counter+=1
+            continue
+        if ret==False:
+            break
+        
+        print(frame.shape) 
+        
+        frame = cv2.resize(frame, (frameWidth, frameHeight))  
+        analyzer.add_video_frame(frame) 
+
+        #(x,y,width,height) tuple
+        #boxes, labels, scores = Detect(frame)
+        for person in analyzer.activePeople:
+            bbox=person.bounding_boxes[-1]
+            if not(bbox is None):
+                x,y,w,h = bbox.left, bbox.top, bbox.width, bbox.height
+                frame=cv2.rectangle(frame, (x,y), (x+w, y+h), (0,255,0), 1)
+                frame=cv2.putText(frame, f&#34;Person {person.id}&#34;, (x+w+10, y+h), 0, 0.3, (0,255,0))
+                # add bbox center to heatmap
+                for i in range(-5, 5):
+                    for j in range(-5, 5):
+                        if x + i &gt; 0 and y + j &gt; 0:
+                            heatMap[x + i][y + j] += 1
+
+        for violation in analyzer.violations:
+            color = (255, 0, 0)
+            if violation.accepted:
+                color = (255, 255, 0)
+            if(violation.p1.getCenter() == None or violation.p2.getCenter() == None):
+                continue
+            from_p = (int(violation.p1.getCenter()[0]), int(violation.p1.getCenter()[1]))
+            to_p = (int(violation.p2.getCenter()[0]), int(violation.p2.getCenter()[1]))
+            cv2.line(frame, from_p, to_p, color, 2)
+                
+        cv2.imshow(&#39;Human detection example&#39;, frame)
+        current_time=time.perf_counter()
+        print(f&#34;{(s)/(current_time-last_time):0.4f} fps&#34;)
+        last_time=current_time
+        counter+=1
+                
+        if cv2.waitKey(1) &amp; 0xFF == ord(&#39;q&#39;):
+            break
+
+    #Display created heatmap
+    plt.imshow(heatMap, cmap=&#39;hot&#39;, interpolation=&#39;nearest&#39;)
+    plt.show()
+        
+    #Release resources
+    vc.release()
+    cv2.destroyAllWindows()</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3>Super-module</h3>
+<ul>
+<li><code><a title="social-distancing-net" href="index.html">social-distancing-net</a></code></li>
+</ul>
+</li>
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="social-distancing-net.reading_script.help" href="#social-distancing-net.reading_script.help">help</a></code></li>
+<li><code><a title="social-distancing-net.reading_script.runStream" href="#social-distancing-net.reading_script.runStream">runStream</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.1</a>.</p>
+</footer>
+</body>
+</html>

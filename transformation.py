@@ -4,14 +4,20 @@ from PIL import Image
 
 class Transformation:
     """
-    Calculate the transformations
+    Transforms camera coordinates to coordinates on the ground.
 
     Attributes
     ---------- 
+        cameraCalibrationArray
+            contains information about the orientation and placement of the camera
+        frameWidth: int
+            width of the videoFrame
+        frameHeight: int
+            heifht of the videoFrame
         
     """
 
-    def __init__(self, cameraCallibrationArray, frameWidth, frameHeight)->None:
+    def __init__(self, cameraCallibrationArray, frameWidth:int, frameHeight:int)->None:
         self.cameraCallibrationArray = cameraCallibrationArray
         self.frameWidth = frameWidth
         self.frameHeight = frameHeight

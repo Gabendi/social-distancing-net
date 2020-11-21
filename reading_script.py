@@ -14,16 +14,34 @@ import time
 
 from people_detection import PeopleDetector
 
-#importing our code to do the prediction
 
-def help():
-	print('\n')
-	print('This script is for visualizing bounding-box estimations for detection of human bodies.')
-	print('Usage: python reading_script.py [VideoStream]')
-	print('\n')
+
+def help()->None:
+    """
+        Displays help message in console
+    """
+    print('\n')
+    print('This script is for visualizing bounding-box estimations for detection of human bodies.')
+    print('Usage: python reading_script.py [VideoStream]')
+    print('\n')
 
 
 def runStream(videoUrl,sample_rate=0.1):
+    """
+    Processes the prerecorded video, or webcam, and displays the analyzed video.
+    The program processes only a few selected videoframes for performance reasons.
+    Sample rate specifies what portion of the video is processed.
+    A video frame if processed if video_frame_index mod 1/sample_rate is 0.
+
+    At the end of the processing the program displays the density of the violations on a heatmap.
+
+    Parameters
+    ----------
+        videoUrl
+            Path of the prerecorded video file, if None the program processes the  webcam stream
+        sample_rate : float, optional
+            Sample rate of processing, by default 0.1
+    """
     vc = cv2.VideoCapture(videoUrl)
 
     frameWidth = 1920 // 2

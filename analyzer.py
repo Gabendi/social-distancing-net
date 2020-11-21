@@ -46,12 +46,11 @@ class Analyzer:
             video_frame : VideoFrame
                 New VideFrame
         """
-        last_video_frame=self.video[len(self.video)-1] if len(self.video)>0 else None
         self.video.append(video_frame)
         
         boundingboxes, scores=self._peopledetector.detect(video_frame)
 
-        self._tracker.updateTrajectories(video_frame, last_video_frame, boundingboxes, scores)
+        self._tracker.updateTrajectories(video_frame, boundingboxes, scores)
         self._tracker.groupTrajectories()
 
         self.violations = self.calculateDistanceViolations.CalculateViolations(self.activePeople)

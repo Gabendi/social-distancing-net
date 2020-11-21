@@ -7,20 +7,30 @@ import numpy as np
 
 class Tracker:
     """
-    Identifies and stores detected people, identifies groups.
+    Trackes detected person and groups people with close trajectories.
 
     Attributes
     ---------- 
-        activePeople : Person[]
-            list of people currently in the view of the camera
+        minDist: int
+            People are considered to be in the same group if they are less the minDist meters from each other for enough video frames
     """
-    def __init__(self, analyzer, minDist = 2) -> None:
-        self._sort=Sort()
+    def __init__(self, analyzer, minDist:int = 2) -> None:
+        self._sort=Sort(max_age=10)
         self._analyzer=analyzer
         self._minDist = minDist
         pass
     
     def addBoundingBoxForPerson(self, person:Person, box:BoundingBox):
+        """
+        Append the boundig box to the bounding boxes of the person. It also calculates and append the coordinate of the person to his/her coordinates.
+
+        Parameters
+        ----------
+            person : Person
+                The owner of the bounding box
+            box : BoundingBox
+                The bounding box to append
+        """
         person.bounding_boxes.append(box)
         if box==None:
             person.coordinates.append(None)
@@ -28,9 +38,11 @@ class Tracker:
             x, y = self._analyzer.transformation.transformPoint(box.left+box.width/2, box.top+box.height)
             person.addCoordinates(x, y)
 
-    def updateTrajectories(self,current:VideoFrame,last:VideoFrame,bounding_boxes:List[BoundingBox],scores:List[float])->None:
+    def updateTrajectories(self,current:VideoFrame,bounding_boxes:List[BoundingBox],scores:List[float])->None:
         """
-        Identifies new people on the videoFrame, tracks already identified people. Update groups
+        Identifies new people on the videoFrame, tracks already identified people.
+        Deletes people, if they are missing for at least 10 video frames.
+
         Parameters
         ----------
             current : VideoFrame
