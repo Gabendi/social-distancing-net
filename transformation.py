@@ -5,10 +5,16 @@ from person import Coordinate
 
 class Transformation:
     """
-    Calculate the transformations
+    Transforms camera coordinates to coordinates on the ground.
 
     Attributes
     ---------- 
+        cameraCalibrationArray
+            contains information about the orientation and placement of the camera
+        frameWidth: int
+            width of the videoFrame
+        frameHeight: int
+            heifht of the videoFrame
         
     """
 
