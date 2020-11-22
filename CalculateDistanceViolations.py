@@ -15,7 +15,7 @@ class CalculateDistanceViolations:
                 Violation is created if somebody violates to keep this minimum distance.
     """
 
-    def __init__(self, minDist = 2):
+    def __init__(self, minDist = 100):
         self.t = 0
         self.minDist = minDist
 

@@ -25,11 +25,13 @@ def help():
 def runStream(videoUrl,sample_rate=0.1):
     vc = cv2.VideoCapture(videoUrl)
 
-    frameWidth = 1920 // 4
-    frameHeight = 1080 //4
-    cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = "float32")
-    
-    transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
+    frameWidth = 1920 // 2
+    frameHeight = 1080 // 2
+    #cameraCallibrationArray = np.array([(445,262),(505,273),(465,313),(405,296)], dtype = "float32")
+    #cameraCallibrationArray = np.array([(403,287),(464,283),(480,334),(386,333)], dtype = "float32")
+    cameraCallibrationArray = np.array([(387,231),(683,279),(515,462),(154,373)], dtype = "float32")
+    firstSectionToMeter = 0.21
+    transformation = Transformation(cameraCallibrationArray, firstSectionToMeter, frameWidth, frameHeight)
     analyzer=Analyzer(transformation)
 
     print(videoUrl)
@@ -67,15 +69,28 @@ def runStream(videoUrl,sample_rate=0.1):
             color = (255, 0, 0)
             if violation.accepted:
                 color = (255, 255, 0)
+            #print(violation.p1.getCoordinate().x)
+            #print(violation.p1.getCoordinate().y)
             if(violation.p1.getCenter() == None or violation.p2.getCenter() == None):
                 continue
             from_p = (int(violation.p1.getCenter()[0]), int(violation.p1.getCenter()[1]))
             to_p = (int(violation.p2.getCenter()[0]), int(violation.p2.getCenter()[1]))
             cv2.line(frame, from_p, to_p, color, 2)
+
+            #Map view
+            #cv2.rectangle(frame, (0,0), (frameWidth/5,frameHeight/5), (0,0,0), -1)
+            #from_p = (int(violation.p1.getCoordinate().x/10), int(violation.p1.getCoordinate().y/10))
+            #to_p = (int(violation.p2.getCoordinate().x/10), int(violation.p2.getCoordinate().y/10))
+            #cv2.line(frame, from_p, to_p, color, 2)
 		
+        transformed = transformation.transformationMatrix
+        width = transformation.transformedFrameWidth
+        height = transformation.transformedFrameHeight
+        warped = cv2.warpPerspective(frame, transformed, (int(width), int(height)))
+        warped = cv2.resize(warped, (int(width/2), int(height/2)))  
         cv2.imshow('Human detection example', frame)
         current_time=time.perf_counter()
-        print(f"{(s)/(current_time-last_time):0.4f} fps")
+        #print(f"{(s)/(current_time-last_time):0.4f} fps")
         last_time=current_time
         counter+=1
 		

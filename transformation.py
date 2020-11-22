@@ -1,6 +1,7 @@
 import numpy as np
 import cv2
 from PIL import Image
+from person import Coordinate
 
 class Transformation:
     """
@@ -11,8 +12,9 @@ class Transformation:
         
     """
 
-    def __init__(self, cameraCallibrationArray, frameWidth, frameHeight)->None:
+    def __init__(self, cameraCallibrationArray, firstSectionToMeter, frameWidth, frameHeight)->None:
         self.cameraCallibrationArray = cameraCallibrationArray
+        self.firstSectionToMeter = firstSectionToMeter
         self.frameWidth = frameWidth
         self.frameHeight = frameHeight
 
@@ -33,7 +35,7 @@ class Transformation:
         return rect
 
     def four_point_transform(self):
-        rect = self.order_points(self.cameraCallibrationArray)
+        rect = self.cameraCallibrationArray
         (tl, tr, br, bl) = rect
 
         widthA = np.sqrt(((br[0] - bl[0]) ** 2) + ((br[1] - bl[1]) ** 2))
@@ -43,15 +45,18 @@ class Transformation:
         heightA = np.sqrt(((tr[0] - br[0]) ** 2) + ((tr[1] - br[1]) ** 2))
         heightB = np.sqrt(((tl[0] - bl[0]) ** 2) + ((tl[1] - bl[1]) ** 2))
         maxHeight = max(int(heightA), int(heightB))
-
+        
         dst = np.array([
             [0, 0],
             [maxWidth - 1, 0],
             [maxWidth - 1, maxHeight - 1],
             [0, maxHeight - 1]], dtype = "float32")
 
-        M = cv2.getPerspectiveTransform(rect, dst)
+        print(dst)
 
+        M = cv2.getPerspectiveTransform(rect, dst)
+        print(np.dot(M, [[0],[0],[1]])[0][0])
+        print(np.dot(M, [[0],[0],[1]])[1][0])
         trans = np.array([
             [1, 0, -np.dot(M, [[0],[0],[1]])[0][0]],
             [0, 1, -np.dot(M, [[0],[0],[1]])[1][0]],
@@ -70,3 +75,16 @@ class Transformation:
         p = np.dot(self.transformationMatrix, [[x], [y], [1]])
         p = p / p[2]
         return p[0], p[1]
+
+    def getTransformedPixelNumberOfMeter(self):
+        (tl, tr, br, bl) = self.cameraCallibrationArray
+
+        d = Coordinate(tl[0], tl[1]).DistanceFrom(Coordinate(tr[0], tr[1]))
+        
+        ttl = self.transformPoint(tl[0], tl[1])
+        ttr = self.transformPoint(tr[0], tr[1])
+
+
+        td = Coordinate(ttl[0], ttl[1]).DistanceFrom(Coordinate(ttr[0], ttr[1]))
+
+        return td * self.firstSectionToMeter
