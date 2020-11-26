@@ -51,7 +51,7 @@ class PeopleDetector:
                 if classID == 0:
                     confidence = scores[classID]
                     if confidence > class_threshold:
-                        box = detection[0:4] * np.array([W, H, W, H])
+                        box = detection[0:4] * np.array([W, H, H, W])
                         (centerX, centerY, width, height) = box.astype("int")
                         x = int(centerX - (width / 2))
                         y = int(centerY - (height / 2))

@@ -22,14 +22,14 @@ class Analyzer:
         activePeople: Person[]
             people currently on video
     """
-    def __init__(self, transformation)->None:
+    def __init__(self, transformation, model)->None:
         self.transformation = transformation
 
         self.video:List[VideoFrame]=[]
         self.violations:List[Violation]=[]
         self.activePeople:List[Person]=[]
         self._tracker=Tracker(self,transformation.transformedFrameWidth * 1.8)
-        self._peopledetector=PeopleDetector()
+        self._peopledetector=PeopleDetector(model = model)
 
         #Callibration calculations
         print("1 meter:")

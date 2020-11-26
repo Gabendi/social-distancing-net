@@ -26,7 +26,7 @@ def help()->None:
     print('\n')
 
 
-def runStream(videoUrl,sample_rate=0.1):
+def runStream(videoUrl, model, sample_rate=0.1):
     """
     Processes the prerecorded video, or webcam, and displays the analyzed video.
     The program processes only a few selected videoframes for performance reasons.
@@ -39,6 +39,8 @@ def runStream(videoUrl,sample_rate=0.1):
     ----------
         videoUrl
             Path of the prerecorded video file, if None the program processes the  webcam stream
+        model
+            YOLO type, must be yolov3, yolov3-tiny or yolov2-tiny
         sample_rate : float, optional
             Sample rate of processing, by default 0.1
     """
@@ -50,7 +52,7 @@ def runStream(videoUrl,sample_rate=0.1):
     cameraCallibrationArray = np.array([(387,231),(683,279),(515,462),(154,373)], dtype = "float32")
     firstSectionToMeter = 0.21
     transformation = Transformation(cameraCallibrationArray, firstSectionToMeter, frameWidth, frameHeight)
-    analyzer=Analyzer(transformation)
+    analyzer=Analyzer(transformation, model = model)
 
     print(videoUrl)
     last_time=time.perf_counter()
@@ -133,4 +135,11 @@ if __name__ == "__main__":
         help()
     else:
         VIDEO_STREAM = sys.argv[1]
-        runStream(VIDEO_STREAM)
+        model = 'yolov3'
+        if (len(sys.argv) > 2):
+            if sys.argv[2] == "yolov2-tiny" or sys.argv[2] == "yolov3-tiny" or sys.argv[2] == "yolov3":
+                model = sys.argv[2]
+            else:
+                print('\nProblem with the model argument, the default will be yolov3')
+                print('\nNext time try "yolov3" or "yolov3-tiny" or "yolov2-tiny"')
+        runStream(VIDEO_STREAM, model)
