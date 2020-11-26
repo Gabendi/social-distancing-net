@@ -10,7 +10,7 @@ class CalculateDistanceViolations:
             t : int
                 Current time.
                 Measured as a number of frames since the beginning of the video.
-            minDist: int
+            minDist: float
                 Minimum distance (m).
                 Violation is created if somebody violates to keep this minimum distance.
     """

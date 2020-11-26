@@ -28,7 +28,7 @@ class Analyzer:
         self.video:List[VideoFrame]=[]
         self.violations:List[Violation]=[]
         self.activePeople:List[Person]=[]
-        self._tracker=Tracker(self,transformation.transformedFrameWidth * 1.8)
+        self._tracker=Tracker(self,transformation.getTransformedPixelNumberOfMeter() * 1.8)
         self._peopledetector=PeopleDetector(model = model)
 
         #Callibration calculations

@@ -11,11 +11,11 @@ class Tracker:
 
     Attributes
     ---------- 
-        minDist: int
+        minDist: float
             People are considered to be in the same group if they are less the minDist meters from each other for enough video frames
     """
 
-    def __init__(self, analyzer, minDist:int = 2) -> None:
+    def __init__(self, analyzer, minDist = 100) -> None:
         self._sort=Sort(max_age=10)
         self._analyzer=analyzer
         self._minDist = minDist
@@ -96,8 +96,6 @@ class Tracker:
         Considers two individuals as being in the same group if they are less then d meters apart for at least dt seconds.
         Parameters
         ----------
-            d : int
-                maximum distance
             dt : int
                 minimum seconds (sec * fps)
         """
