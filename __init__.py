@@ -21,7 +21,9 @@ Either analyze a prerecorded video:
 
 Or analyze live webcamera stream:
 
-```$python3 reading_script.py```
+```$python3 reading_script.py 0 yolov3/yolov3-tiny/yolov2-tiny asd.json```
+ 
+## Examples
 
-
+TODO
 """
