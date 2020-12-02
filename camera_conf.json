@@ -1,0 +1,9 @@
+{
+	"factorToMeter" : 0.21,
+	"cameraCallibrationArray" : [
+		[387, 231],
+		[683, 279],
+		[515, 462],
+		[154, 373]
+	]										
+}

@@ -13,7 +13,7 @@ class Coordinate:
             y: int
                 y coordinate of the point
     """
-    def __init__(self,x:int,y:int):
+    def __init__(self,x,y):
         self.x = x
         self.y = y
         
@@ -67,7 +67,7 @@ class Person:
         cls.maxid+=1
         return newid
     
-    def addCoordinates(self, x:int = None, y:int = None) -> None:
+    def addCoordinates(self, x = None, y = None) -> None:
         """
         Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.
         """

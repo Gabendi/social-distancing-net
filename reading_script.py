@@ -10,6 +10,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from transformation import Transformation
 import time
+import json
 
 
 from people_detection import PeopleDetector
@@ -48,9 +49,12 @@ def runStream(videoUrl, model, sample_rate=0.1):
 
     frameWidth = 1920 // 2
     frameHeight = 1080 // 2
+
+    with open('camera_conf.json') as f:
+        data = json.load(f)
     
-    cameraCallibrationArray = np.array([(387,231),(683,279),(515,462),(154,373)], dtype = "float32")
-    firstSectionToMeter = 0.21
+    cameraCallibrationArray = np.array(data['cameraCallibrationArray'], dtype = "float32")
+    firstSectionToMeter = data['factorToMeter']
     transformation = Transformation(cameraCallibrationArray, firstSectionToMeter, frameWidth, frameHeight)
     analyzer=Analyzer(transformation, model = model)
 
