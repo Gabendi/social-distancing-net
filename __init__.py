@@ -40,10 +40,14 @@ Contains information for camera calibration. It contains the pixel coordinates o
 The program displays the detected violations:
     - Each detected person is surrounded with its boundingbox
     - The unique identifier of the detected person is displayed below the boundingbox
-    - Dark blue lines display social distancing violations between strangers
-    - Light blue lines display social distancing violations within groups/families (this violations can be ignored)
+    - Dark blue/red lines display social distancing violations between strangers
+    - Light blue/yellow lines display social distancing violations within groups/families (this violations can be ignored)
 
 <iframe src="https://drive.google.com/file/d/1bdB-Zhx3nq0vSdlsCWC0RMQldPuAjkZu/preview" width="640" height="480"></iframe>
+
+<video width="640" height="480" controls>
+     <source src="https://bmeedu-my.sharepoint.com/personal/pallagj_edu_bme_hu/Documents/Asztal/HF%20videos/Socail1.mp4" type="video/mp4">
+</video>
 
 Detected couples:
 
@@ -58,6 +62,13 @@ Social distancing violation between couples:
 Multiple detected social distancing violations:
 
 <iframe src="https://drive.google.com/file/d/1Tu3S2gFRvraJlJzy4dhnWi52farmCDUs/preview" width="640" height="480"></iframe>
+
+Different video footage:
+
+<video width="640" height="480" controls>
+     <source src="Socia2.mp4" type="video/mp4">
+</video>
+
 """
 __pdoc__ = {}
 __pdoc__['venv'] = False
