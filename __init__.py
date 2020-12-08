@@ -25,23 +25,26 @@ It can be either path of a prerecorded video or '0' for webcamera live stream.
 
 ### [Model]
 Select wich [yolo](https://pjreddie.com/darknet/yolo/) model to use, options:
-    - '"yolov3"' : High accuracy, but real-time processing is resource intensive
-    - '"yolov3-tiny"/"yolov2-tiny"': Lower accuracy but near real-time processing on medium hardware resources  
+
+* `"yolov3"` : High accuracy, but real-time processing is resource intensive
+* `"yolov3-tiny"`/`"yolov2-tiny"`: Lower accuracy but near real-time processing on medium hardware resources  
 The program looks for the corresponding cfg and weights files.
 
 ### camera_conf.json
 Contains information for camera calibration. It contains the pixel coordinates of a square on the ground
-  - `factorToMeter`: side length of the square in meters
- -  `cameraCallibrationArray`: pixel coordinates of the square
+
+* `factorToMeter`: side length of the square in meters
+*  `cameraCallibrationArray`: pixel coordinates of the square
 ```
  
 ## Examples
 
 The program displays the detected violations:
-    - Each detected person is surrounded with its boundingbox
-    - The unique identifier of the detected person is displayed below the boundingbox
-    - Dark blue/red lines display social distancing violations between strangers
-    - Light blue/yellow lines display social distancing violations within groups/families (this violations can be ignored)
+
+* Each detected person is surrounded with its boundingbox
+* The unique identifier of the detected person is displayed below the boundingbox
+* Dark blue/red lines display social distancing violations between strangers
+* Light blue/yellow lines display social distancing violations within groups/families (this violations can be ignored)
 
 <iframe src="https://drive.google.com/file/d/1bdB-Zhx3nq0vSdlsCWC0RMQldPuAjkZu/preview" width="640" height="480"></iframe>
 
