@@ -32,7 +32,7 @@ class Analyzer:
         self._peopledetector=PeopleDetector(model = model)
 
         #Callibration calculations
-        print("1 meter:")
+        print("1.8 meter:")
         print(transformation.getTransformedPixelNumberOfMeter() * 1.8)
         self.calculateDistanceViolations = CalculateDistanceViolations(transformation.getTransformedPixelNumberOfMeter() * 1.8)
 
