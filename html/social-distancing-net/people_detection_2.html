@@ -42,26 +42,37 @@ class PeopleDetector:
             yolov2-tiny / yolov3-tiny / yolov3
     &#34;&#34;&#34;
 
-    def __init__(self, model = &#34;yolov3-tiny&#34;):
+    def __init__(self, model = &#34;yolov3&#34;):
         self.net = cv2.dnn.readNetFromDarknet(model + &#34;.cfg&#34;, model + &#34;.weights&#34;)
         self.ln = self.net.getLayerNames()
         self.ln = [self.ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
 
     def detect(self, frame: VideoFrame, input_w=960, input_h=540, class_threshold=0.1):
         &#34;&#34;&#34;
-            Bemeneti parméterek:
-                input_w/h: modell bemeneti mérete
-                class_treshold: ennyi konfidencia felett tartjuk meg a jelölt osztályokat
-                labels: ezeket ismeri fel (be lehet rakni csomó mindent, fun)
+            Detects people on the video frame.
 
-            Feldolgozás lépései:
-                1. Kép betöltése, előfeldolgozása
-                2. Modell futtatása, BoundigBox-ok előállítása
-                3. átfedések kezelése
+            Detection process:
+                1. Image pre-processing
+                2. Predict and convert bounding boxes
+                3. Non-maxima suppression
 
-            Kimenet:
-                boxes: befoglaló doboz
-                scores: ~konfidencia
+            Parameters
+            ----------
+                input_w : int
+                    input image width
+                input_h : int
+                    input image height
+                class_treshold : float
+                    predictions below the given treshold are omitted
+
+            
+
+            Returns
+            -------
+                boxes: BoundingBox
+                    predicted boundingboxes
+                scores: float
+                    prediction confindence
         &#34;&#34;&#34;
 
         (H, W) = frame.shape[:2]
@@ -111,7 +122,7 @@ class PeopleDetector:
 <dl>
 <dt id="social-distancing-net.people_detection_2.PeopleDetector"><code class="flex name class">
 <span>class <span class="ident">PeopleDetector</span></span>
-<span>(</span><span>model='yolov3-tiny')</span>
+<span>(</span><span>model='yolov3')</span>
 </code></dt>
 <dd>
 <div class="desc"><p>People detection with YOLO.
@@ -133,26 +144,37 @@ Attributes</p>
             yolov2-tiny / yolov3-tiny / yolov3
     &#34;&#34;&#34;
 
-    def __init__(self, model = &#34;yolov3-tiny&#34;):
+    def __init__(self, model = &#34;yolov3&#34;):
         self.net = cv2.dnn.readNetFromDarknet(model + &#34;.cfg&#34;, model + &#34;.weights&#34;)
         self.ln = self.net.getLayerNames()
         self.ln = [self.ln[i[0] - 1] for i in self.net.getUnconnectedOutLayers()]
 
     def detect(self, frame: VideoFrame, input_w=960, input_h=540, class_threshold=0.1):
         &#34;&#34;&#34;
-            Bemeneti parméterek:
-                input_w/h: modell bemeneti mérete
-                class_treshold: ennyi konfidencia felett tartjuk meg a jelölt osztályokat
-                labels: ezeket ismeri fel (be lehet rakni csomó mindent, fun)
+            Detects people on the video frame.
 
-            Feldolgozás lépései:
-                1. Kép betöltése, előfeldolgozása
-                2. Modell futtatása, BoundigBox-ok előállítása
-                3. átfedések kezelése
+            Detection process:
+                1. Image pre-processing
+                2. Predict and convert bounding boxes
+                3. Non-maxima suppression
 
-            Kimenet:
-                boxes: befoglaló doboz
-                scores: ~konfidencia
+            Parameters
+            ----------
+                input_w : int
+                    input image width
+                input_h : int
+                    input image height
+                class_treshold : float
+                    predictions below the given treshold are omitted
+
+            
+
+            Returns
+            -------
+                boxes: BoundingBox
+                    predicted boundingboxes
+                scores: float
+                    prediction confindence
         &#34;&#34;&#34;
 
         (H, W) = frame.shape[:2]
@@ -196,36 +218,55 @@ Attributes</p>
 <span>def <span class="ident">detect</span></span>(<span>self, frame: video_frame.VideoFrame, input_w=960, input_h=540, class_threshold=0.1)</span>
 </code></dt>
 <dd>
-<div class="desc"><p>Bemeneti parméterek:
-input_w/h: modell bemeneti mérete
-class_treshold: ennyi konfidencia felett tartjuk meg a jelölt osztályokat
-labels: ezeket ismeri fel (be lehet rakni csomó mindent, fun)</p>
-<p>Feldolgozás lépései:
-1. Kép betöltése, előfeldolgozása
-2. Modell futtatása, BoundigBox-ok előállítása
-3. átfedések kezelése</p>
-<h2 id="kimenet">Kimenet</h2>
-<p>boxes: befoglaló doboz
-scores: ~konfidencia</p></div>
+<div class="desc"><p>Detects people on the video frame.</p>
+<p>Detection process:
+1. Image pre-processing
+2. Predict and convert bounding boxes
+3. Non-maxima suppression</p>
+<h2 id="parameters">Parameters</h2>
+<pre><code>input_w : int
+    input image width
+input_h : int
+    input image height
+class_treshold : float
+    predictions below the given treshold are omitted
+</code></pre>
+<h2 id="returns">Returns</h2>
+<pre><code>boxes: BoundingBox
+    predicted boundingboxes
+scores: float
+    prediction confindence
+</code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
 <pre><code class="python">def detect(self, frame: VideoFrame, input_w=960, input_h=540, class_threshold=0.1):
     &#34;&#34;&#34;
-        Bemeneti parméterek:
-            input_w/h: modell bemeneti mérete
-            class_treshold: ennyi konfidencia felett tartjuk meg a jelölt osztályokat
-            labels: ezeket ismeri fel (be lehet rakni csomó mindent, fun)
+        Detects people on the video frame.
 
-        Feldolgozás lépései:
-            1. Kép betöltése, előfeldolgozása
-            2. Modell futtatása, BoundigBox-ok előállítása
-            3. átfedések kezelése
+        Detection process:
+            1. Image pre-processing
+            2. Predict and convert bounding boxes
+            3. Non-maxima suppression
 
-        Kimenet:
-            boxes: befoglaló doboz
-            scores: ~konfidencia
+        Parameters
+        ----------
+            input_w : int
+                input image width
+            input_h : int
+                input image height
+            class_treshold : float
+                predictions below the given treshold are omitted
+
+        
+
+        Returns
+        -------
+            boxes: BoundingBox
+                predicted boundingboxes
+            scores: float
+                prediction confindence
     &#34;&#34;&#34;
 
     (H, W) = frame.shape[:2]

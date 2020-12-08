@@ -21,19 +21,30 @@ class PeopleDetector:
 
     def detect(self, frame: VideoFrame, input_w=960, input_h=540, class_threshold=0.1):
         """
-            Bemeneti parméterek:
-                input_w/h: modell bemeneti mérete
-                class_treshold: ennyi konfidencia felett tartjuk meg a jelölt osztályokat
-                labels: ezeket ismeri fel (be lehet rakni csomó mindent, fun)
+            Detects people on the video frame.
 
-            Feldolgozás lépései:
-                1. Kép betöltése, előfeldolgozása
-                2. Modell futtatása, BoundigBox-ok előállítása
-                3. átfedések kezelése
+            Detection process:
+                1. Image pre-processing
+                2. Predict and convert bounding boxes
+                3. Non-maxima suppression
 
-            Kimenet:
-                boxes: befoglaló doboz
-                scores: ~konfidencia
+            Parameters
+            ----------
+                input_w : int
+                    input image width
+                input_h : int
+                    input image height
+                class_treshold : float
+                    predictions below the given treshold are omitted
+
+            
+
+            Returns
+            -------
+                boxes: BoundingBox
+                    predicted boundingboxes
+                scores: float
+                    prediction confindence
         """
 
         (H, W) = frame.shape[:2]

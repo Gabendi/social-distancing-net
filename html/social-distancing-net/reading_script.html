@@ -38,6 +38,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 from transformation import Transformation
 import time
+import json
 
 
 from people_detection import PeopleDetector
@@ -50,11 +51,11 @@ def help()-&gt;None:
     &#34;&#34;&#34;
     print(&#39;\n&#39;)
     print(&#39;This script is for visualizing bounding-box estimations for detection of human bodies.&#39;)
-    print(&#39;Usage: python reading_script.py [VideoStream]&#39;)
+    print(&#39;Usage: python reading_script.py [VideoStream] [Model]&#39;)
     print(&#39;\n&#39;)
 
 
-def runStream(videoUrl,sample_rate=0.1):
+def runStream(videoUrl, model, sample_rate=0.1):
     &#34;&#34;&#34;
     Processes the prerecorded video, or webcam, and displays the analyzed video.
     The program processes only a few selected videoframes for performance reasons.
@@ -66,7 +67,9 @@ def runStream(videoUrl,sample_rate=0.1):
     Parameters
     ----------
         videoUrl
-            Path of the prerecorded video file, if None the program processes the  webcam stream
+            Path of the prerecorded video file, if &#39;0&#39; the program processes the  webcam stream
+        model
+            YOLO type, must be yolov3, yolov3-tiny or yolov2-tiny
         sample_rate : float, optional
             Sample rate of processing, by default 0.1
     &#34;&#34;&#34;
@@ -74,10 +77,14 @@ def runStream(videoUrl,sample_rate=0.1):
 
     frameWidth = 1920 // 2
     frameHeight = 1080 // 2
-    cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = &#34;float32&#34;)
+
+    with open(&#39;camera_conf.json&#39;) as f:
+        data = json.load(f)
     
-    transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
-    analyzer=Analyzer(transformation)
+    cameraCallibrationArray = np.array(data[&#39;cameraCallibrationArray&#39;], dtype = &#34;float32&#34;)
+    firstSectionToMeter = data[&#39;factorToMeter&#39;]
+    transformation = Transformation(cameraCallibrationArray, firstSectionToMeter, frameWidth, frameHeight)
+    analyzer=Analyzer(transformation, model = model)
 
     print(videoUrl)
     last_time=time.perf_counter()
@@ -118,15 +125,28 @@ def runStream(videoUrl,sample_rate=0.1):
             color = (255, 0, 0)
             if violation.accepted:
                 color = (255, 255, 0)
+            #print(violation.p1.getCoordinate().x)
+            #print(violation.p1.getCoordinate().y)
             if(violation.p1.getCenter() == None or violation.p2.getCenter() == None):
                 continue
             from_p = (int(violation.p1.getCenter()[0]), int(violation.p1.getCenter()[1]))
             to_p = (int(violation.p2.getCenter()[0]), int(violation.p2.getCenter()[1]))
             cv2.line(frame, from_p, to_p, color, 2)
+
+            #Map view
+            #cv2.rectangle(frame, (0,0), (frameWidth/5,frameHeight/5), (0,0,0), -1)
+            #from_p = (int(violation.p1.getCoordinate().x/10), int(violation.p1.getCoordinate().y/10))
+            #to_p = (int(violation.p2.getCoordinate().x/10), int(violation.p2.getCoordinate().y/10))
+            #cv2.line(frame, from_p, to_p, color, 2)
                 
+        transformed = transformation.transformationMatrix
+        width = transformation.transformedFrameWidth
+        height = transformation.transformedFrameHeight
+        warped = cv2.warpPerspective(frame, transformed, (int(width), int(height)))
+        warped = cv2.resize(warped, (int(width/2), int(height/2)))  
         cv2.imshow(&#39;Human detection example&#39;, frame)
         current_time=time.perf_counter()
-        print(f&#34;{(s)/(current_time-last_time):0.4f} fps&#34;)
+        #print(f&#34;{(s)/(current_time-last_time):0.4f} fps&#34;)
         last_time=current_time
         counter+=1
                 
@@ -147,7 +167,14 @@ if __name__ == &#34;__main__&#34;:
         help()
     else:
         VIDEO_STREAM = sys.argv[1]
-        runStream(VIDEO_STREAM)</code></pre>
+        model = &#39;yolov3&#39;
+        if (len(sys.argv) &gt; 2):
+            if sys.argv[2] == &#34;yolov2-tiny&#34; or sys.argv[2] == &#34;yolov3-tiny&#34; or sys.argv[2] == &#34;yolov3&#34;:
+                model = sys.argv[2]
+            else:
+                print(&#39;\nProblem with the model argument, the default will be yolov3&#39;)
+                print(&#39;\nNext time try &#34;yolov3&#34; or &#34;yolov3-tiny&#34; or &#34;yolov2-tiny&#34;&#39;)
+        runStream(VIDEO_STREAM, model)</code></pre>
 </details>
 </section>
 <section>
@@ -172,12 +199,12 @@ if __name__ == &#34;__main__&#34;:
     &#34;&#34;&#34;
     print(&#39;\n&#39;)
     print(&#39;This script is for visualizing bounding-box estimations for detection of human bodies.&#39;)
-    print(&#39;Usage: python reading_script.py [VideoStream]&#39;)
+    print(&#39;Usage: python reading_script.py [VideoStream] [Model]&#39;)
     print(&#39;\n&#39;)</code></pre>
 </details>
 </dd>
 <dt id="social-distancing-net.reading_script.runStream"><code class="name flex">
-<span>def <span class="ident">runStream</span></span>(<span>videoUrl, sample_rate=0.1)</span>
+<span>def <span class="ident">runStream</span></span>(<span>videoUrl, model, sample_rate=0.1)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Processes the prerecorded video, or webcam, and displays the analyzed video.
@@ -187,7 +214,9 @@ A video frame if processed if video_frame_index mod 1/sample_rate is 0.</p>
 <p>At the end of the processing the program displays the density of the violations on a heatmap.</p>
 <h2 id="parameters">Parameters</h2>
 <pre><code>videoUrl
-    Path of the prerecorded video file, if None the program processes the  webcam stream
+    Path of the prerecorded video file, if '0' the program processes the  webcam stream
+model
+    YOLO type, must be yolov3, yolov3-tiny or yolov2-tiny
 sample_rate : float, optional
     Sample rate of processing, by default 0.1
 </code></pre></div>
@@ -195,7 +224,7 @@ sample_rate : float, optional
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def runStream(videoUrl,sample_rate=0.1):
+<pre><code class="python">def runStream(videoUrl, model, sample_rate=0.1):
     &#34;&#34;&#34;
     Processes the prerecorded video, or webcam, and displays the analyzed video.
     The program processes only a few selected videoframes for performance reasons.
@@ -207,7 +236,9 @@ sample_rate : float, optional
     Parameters
     ----------
         videoUrl
-            Path of the prerecorded video file, if None the program processes the  webcam stream
+            Path of the prerecorded video file, if &#39;0&#39; the program processes the  webcam stream
+        model
+            YOLO type, must be yolov3, yolov3-tiny or yolov2-tiny
         sample_rate : float, optional
             Sample rate of processing, by default 0.1
     &#34;&#34;&#34;
@@ -215,10 +246,14 @@ sample_rate : float, optional
 
     frameWidth = 1920 // 2
     frameHeight = 1080 // 2
-    cameraCallibrationArray = np.array([(495,273),(1077,269),(439,807),(1161,807)], dtype = &#34;float32&#34;)
+
+    with open(&#39;camera_conf.json&#39;) as f:
+        data = json.load(f)
     
-    transformation = Transformation(cameraCallibrationArray, frameWidth, frameHeight)
-    analyzer=Analyzer(transformation)
+    cameraCallibrationArray = np.array(data[&#39;cameraCallibrationArray&#39;], dtype = &#34;float32&#34;)
+    firstSectionToMeter = data[&#39;factorToMeter&#39;]
+    transformation = Transformation(cameraCallibrationArray, firstSectionToMeter, frameWidth, frameHeight)
+    analyzer=Analyzer(transformation, model = model)
 
     print(videoUrl)
     last_time=time.perf_counter()
@@ -259,15 +294,28 @@ sample_rate : float, optional
             color = (255, 0, 0)
             if violation.accepted:
                 color = (255, 255, 0)
+            #print(violation.p1.getCoordinate().x)
+            #print(violation.p1.getCoordinate().y)
             if(violation.p1.getCenter() == None or violation.p2.getCenter() == None):
                 continue
             from_p = (int(violation.p1.getCenter()[0]), int(violation.p1.getCenter()[1]))
             to_p = (int(violation.p2.getCenter()[0]), int(violation.p2.getCenter()[1]))
             cv2.line(frame, from_p, to_p, color, 2)
+
+            #Map view
+            #cv2.rectangle(frame, (0,0), (frameWidth/5,frameHeight/5), (0,0,0), -1)
+            #from_p = (int(violation.p1.getCoordinate().x/10), int(violation.p1.getCoordinate().y/10))
+            #to_p = (int(violation.p2.getCoordinate().x/10), int(violation.p2.getCoordinate().y/10))
+            #cv2.line(frame, from_p, to_p, color, 2)
                 
+        transformed = transformation.transformationMatrix
+        width = transformation.transformedFrameWidth
+        height = transformation.transformedFrameHeight
+        warped = cv2.warpPerspective(frame, transformed, (int(width), int(height)))
+        warped = cv2.resize(warped, (int(width/2), int(height/2)))  
         cv2.imshow(&#39;Human detection example&#39;, frame)
         current_time=time.perf_counter()
-        print(f&#34;{(s)/(current_time-last_time):0.4f} fps&#34;)
+        #print(f&#34;{(s)/(current_time-last_time):0.4f} fps&#34;)
         last_time=current_time
         counter+=1
                 

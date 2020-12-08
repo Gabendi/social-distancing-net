@@ -36,12 +36,12 @@ class Coordinate:
 
         Attributes
         ----------
-            x: int
+            x: float
                 x coordinate of the point
-            y: int
+            y: float
                 y coordinate of the point
     &#34;&#34;&#34;
-    def __init__(self,x:int,y:int):
+    def __init__(self,x,y):
         self.x = x
         self.y = y
         
@@ -95,7 +95,7 @@ class Person:
         cls.maxid+=1
         return newid
     
-    def addCoordinates(self, x:int = None, y:int = None) -&gt; None:
+    def addCoordinates(self, x = None, y = None) -&gt; None:
         &#34;&#34;&#34;
         Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.
         &#34;&#34;&#34;
@@ -140,14 +140,14 @@ class Person:
 <dl>
 <dt id="social-distancing-net.person.Coordinate"><code class="flex name class">
 <span>class <span class="ident">Coordinate</span></span>
-<span>(</span><span>x: int, y: int)</span>
+<span>(</span><span>x, y)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Coordinates of a point a 2D plane</p>
 <h2 id="attributes">Attributes</h2>
-<pre><code>x: int
+<pre><code>x: float
     x coordinate of the point
-y: int
+y: float
     y coordinate of the point
 </code></pre></div>
 <details class="source">
@@ -160,12 +160,12 @@ y: int
 
         Attributes
         ----------
-            x: int
+            x: float
                 x coordinate of the point
-            y: int
+            y: float
                 y coordinate of the point
     &#34;&#34;&#34;
-    def __init__(self,x:int,y:int):
+    def __init__(self,x,y):
         self.x = x
         self.y = y
         
@@ -280,7 +280,7 @@ inGroupWith : Person[]
         cls.maxid+=1
         return newid
     
-    def addCoordinates(self, x:int = None, y:int = None) -&gt; None:
+    def addCoordinates(self, x = None, y = None) -&gt; None:
         &#34;&#34;&#34;
         Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.
         &#34;&#34;&#34;
@@ -323,7 +323,7 @@ inGroupWith : Person[]
 <h3>Methods</h3>
 <dl>
 <dt id="social-distancing-net.person.Person.addCoordinates"><code class="name flex">
-<span>def <span class="ident">addCoordinates</span></span>(<span>self, x: int = None, y: int = None) ‑> NoneType</span>
+<span>def <span class="ident">addCoordinates</span></span>(<span>self, x=None, y=None) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.</p></div>
@@ -331,7 +331,7 @@ inGroupWith : Person[]
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def addCoordinates(self, x:int = None, y:int = None) -&gt; None:
+<pre><code class="python">def addCoordinates(self, x = None, y = None) -&gt; None:
     &#34;&#34;&#34;
     Add the next (t.) transformed x-y coordinates, or None if it is missing at time t.
     &#34;&#34;&#34;

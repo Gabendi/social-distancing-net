@@ -37,12 +37,12 @@ class CalculateDistanceViolations:
             t : int
                 Current time.
                 Measured as a number of frames since the beginning of the video.
-            minDist: int
+            minDist: float
                 Minimum distance (m).
                 Violation is created if somebody violates to keep this minimum distance.
     &#34;&#34;&#34;
 
-    def __init__(self, minDist = 2):
+    def __init__(self, minDist = 100):
         self.t = 0
         self.minDist = minDist
 
@@ -76,7 +76,7 @@ class CalculateDistanceViolations:
 <dl>
 <dt id="social-distancing-net.CalculateDistanceViolations.CalculateDistanceViolations"><code class="flex name class">
 <span>class <span class="ident">CalculateDistanceViolations</span></span>
-<span>(</span><span>minDist=2)</span>
+<span>(</span><span>minDist=100)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>This class calculates the violations in each frame.</p>
@@ -84,7 +84,7 @@ class CalculateDistanceViolations:
 <pre><code>t : int
     Current time.
     Measured as a number of frames since the beginning of the video.
-minDist: int
+minDist: float
     Minimum distance (m).
     Violation is created if somebody violates to keep this minimum distance.
 </code></pre></div>
@@ -101,12 +101,12 @@ minDist: int
             t : int
                 Current time.
                 Measured as a number of frames since the beginning of the video.
-            minDist: int
+            minDist: float
                 Minimum distance (m).
                 Violation is created if somebody violates to keep this minimum distance.
     &#34;&#34;&#34;
 
-    def __init__(self, minDist = 2):
+    def __init__(self, minDist = 100):
         self.t = 0
         self.minDist = minDist
 

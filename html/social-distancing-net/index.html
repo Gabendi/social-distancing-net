@@ -30,14 +30,40 @@ To prevent the spread of the virus its important that all of us follow the socia
 This program is capable of identifying violations of social distancing using a CCTV camera footage and helps the shop owners for better design better shop layouts and goverments to place space dividers in public areas.</p>
 <h2 id="installation">Installation</h2>
 <p>First you need install the required packages using the requirements.txt:</p>
-<p><code>$pip3 install -r requirements.txt</code></p>
+<pre><code class="language-console">$pip3 install -r requirements.txt
+</code></pre>
 <p>Then download a pretrained yolo network from the <a href="https://pjreddie.com/darknet/yolo/">offical website</a>. Use Tiny YOLO for faster or YOLOv3-416 for more precise processing.
 The cfg and weights files must be placed in the root folder of the project.</p>
 <h2 id="usage">Usage:</h2>
-<p>Either analyze a prerecorded video:</p>
-<p><code>$python3 reading_script.py /path/to/video</code></p>
-<p>Or analyze live webcamera stream:</p>
-<p><code>$python3 reading_script.py</code></p>
+<pre><code class="language-console">$python3 reading_script.py [VideoStream] [Model]
+</code></pre>
+<h3 id="videostream">[VideoStream]</h3>
+<p>It can be either path of a prerecorded video or '0' for webcamera live stream.</p>
+<h3 id="model">[Model]</h3>
+<p>Select wich <a href="https://pjreddie.com/darknet/yolo/">yolo</a> model to use, options:
+- '"yolov3"' : High accuracy, but real-time processing is resource intensive
+- '"yolov3-tiny"/"yolov2-tiny"': Lower accuracy but near real-time processing on medium hardware resources<br>
+The program looks for the corresponding cfg and weights files.</p>
+<h3 id="camera_confjson">camera_conf.json</h3>
+<p>Contains information for camera calibration. It contains the pixel coordinates of a square on the ground
+- <code>factorToMeter</code>: side length of the square in meters
+-
+<code>cameraCallibrationArray</code>: pixel coordinates of the square
+```</p>
+<h2 id="examples">Examples</h2>
+<p>The program displays the detected violations:
+- Each detected person is surrounded with its boundingbox
+- The unique identifier of the detected person is displayed below the boundingbox
+- Dark blue lines display social distancing violations between strangers
+- Light blue lines display social distancing violations within groups/families (this violations can be ignored)</p>
+<iframe src="https://drive.google.com/file/d/1bdB-Zhx3nq0vSdlsCWC0RMQldPuAjkZu/preview" width="640" height="480"></iframe>
+<p>Detected couples:</p>
+<iframe src="https://drive.google.com/file/d/1JNctJjKfSG-HG5TSBf9xF5weJqsInRPC/preview" width="640" height="480"></iframe>
+<iframe src="https://drive.google.com/file/d/10W9QQJU9xkHoEGYKQxckc1ztrwGlbbSr/preview" width="640" height="480"></iframe>
+<p>Social distancing violation between couples:</p>
+<iframe src="https://drive.google.com/file/d/1aGQP5NmE9j6EBwgTQHzKJ1qVDsri7SjI/preview" width="640" height="480"></iframe>
+<p>Multiple detected social distancing violations:</p>
+<iframe src="https://drive.google.com/file/d/1Tu3S2gFRvraJlJzy4dhnWi52farmCDUs/preview" width="640" height="480"></iframe>
 <details class="source">
 <summary>
 <span>Expand source code</span>
@@ -52,23 +78,61 @@ This program is capable of identifying violations of social distancing using a C
 
 First you need install the required packages using the requirements.txt:
 
-```$pip3 install -r requirements.txt```
+```console
+$pip3 install -r requirements.txt
+```
 
 Then download a pretrained yolo network from the [offical website](https://pjreddie.com/darknet/yolo/). Use Tiny YOLO for faster or YOLOv3-416 for more precise processing.
 The cfg and weights files must be placed in the root folder of the project.
 
 ## Usage:
+```console
+$python3 reading_script.py [VideoStream] [Model]
+```
 
-Either analyze a prerecorded video:
+### [VideoStream]
+It can be either path of a prerecorded video or &#39;0&#39; for webcamera live stream.
 
-```$python3 reading_script.py /path/to/video```
+### [Model]
+Select wich [yolo](https://pjreddie.com/darknet/yolo/) model to use, options:
+    - &#39;&#34;yolov3&#34;&#39; : High accuracy, but real-time processing is resource intensive
+    - &#39;&#34;yolov3-tiny&#34;/&#34;yolov2-tiny&#34;&#39;: Lower accuracy but near real-time processing on medium hardware resources  
+The program looks for the corresponding cfg and weights files.
 
-Or analyze live webcamera stream:
+### camera_conf.json
+Contains information for camera calibration. It contains the pixel coordinates of a square on the ground
+  - `factorToMeter`: side length of the square in meters
+ -  `cameraCallibrationArray`: pixel coordinates of the square
+```
+ 
+## Examples
 
-```$python3 reading_script.py```
+The program displays the detected violations:
+    - Each detected person is surrounded with its boundingbox
+    - The unique identifier of the detected person is displayed below the boundingbox
+    - Dark blue lines display social distancing violations between strangers
+    - Light blue lines display social distancing violations within groups/families (this violations can be ignored)
 
+&lt;iframe src=&#34;https://drive.google.com/file/d/1bdB-Zhx3nq0vSdlsCWC0RMQldPuAjkZu/preview&#34; width=&#34;640&#34; height=&#34;480&#34;&gt;&lt;/iframe&gt;
 
-&#34;&#34;&#34;</code></pre>
+Detected couples:
+
+&lt;iframe src=&#34;https://drive.google.com/file/d/1JNctJjKfSG-HG5TSBf9xF5weJqsInRPC/preview&#34; width=&#34;640&#34; height=&#34;480&#34;&gt;&lt;/iframe&gt;
+
+&lt;iframe src=&#34;https://drive.google.com/file/d/10W9QQJU9xkHoEGYKQxckc1ztrwGlbbSr/preview&#34; width=&#34;640&#34; height=&#34;480&#34;&gt;&lt;/iframe&gt;
+
+Social distancing violation between couples:
+
+&lt;iframe src=&#34;https://drive.google.com/file/d/1aGQP5NmE9j6EBwgTQHzKJ1qVDsri7SjI/preview&#34; width=&#34;640&#34; height=&#34;480&#34;&gt;&lt;/iframe&gt;
+
+Multiple detected social distancing violations:
+
+&lt;iframe src=&#34;https://drive.google.com/file/d/1Tu3S2gFRvraJlJzy4dhnWi52farmCDUs/preview&#34; width=&#34;640&#34; height=&#34;480&#34;&gt;&lt;/iframe&gt;
+&#34;&#34;&#34;
+__pdoc__ = {}
+__pdoc__[&#39;venv&#39;] = False
+__pdoc__[&#39;yolo3_one_file_to_detect_them_all&#39;] = False
+__pdoc__[&#39;people_detection&#39;] = False</code></pre>
 </details>
 </section>
 <section>
@@ -83,10 +147,6 @@ Or analyze live webcamera stream:
 <div class="desc"></div>
 </dd>
 <dt><code class="name"><a title="social-distancing-net.bounding_box" href="bounding_box.html">social-distancing-net.bounding_box</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="social-distancing-net.people_detection" href="people_detection.html">social-distancing-net.people_detection</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -115,19 +175,11 @@ Copyright (C) 2016-2020 Alex Bewley alex@bewley.ai …</p></div>
 <dd>
 <div class="desc"></div>
 </dd>
-<dt><code class="name"><a title="social-distancing-net.venv" href="venv/index.html">social-distancing-net.venv</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
 <dt><code class="name"><a title="social-distancing-net.video_frame" href="video_frame.html">social-distancing-net.video_frame</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
 <dt><code class="name"><a title="social-distancing-net.violation" href="violation.html">social-distancing-net.violation</a></code></dt>
-<dd>
-<div class="desc"></div>
-</dd>
-<dt><code class="name"><a title="social-distancing-net.yolo3_one_file_to_detect_them_all" href="yolo3_one_file_to_detect_them_all.html">social-distancing-net.yolo3_one_file_to_detect_them_all</a></code></dt>
 <dd>
 <div class="desc"></div>
 </dd>
@@ -146,7 +198,13 @@ Copyright (C) 2016-2020 Alex Bewley alex@bewley.ai …</p></div>
 <ul>
 <li><a href="#socialdistancingnet">SocialDistancingNet</a><ul>
 <li><a href="#installation">Installation</a></li>
-<li><a href="#usage">Usage:</a></li>
+<li><a href="#usage">Usage:</a><ul>
+<li><a href="#videostream">[VideoStream]</a></li>
+<li><a href="#model">[Model]</a></li>
+<li><a href="#camera_confjson">camera_conf.json</a></li>
+</ul>
+</li>
+<li><a href="#examples">Examples</a></li>
 </ul>
 </li>
 </ul>
@@ -157,17 +215,14 @@ Copyright (C) 2016-2020 Alex Bewley alex@bewley.ai …</p></div>
 <li><code><a title="social-distancing-net.CalculateDistanceViolations" href="CalculateDistanceViolations.html">social-distancing-net.CalculateDistanceViolations</a></code></li>
 <li><code><a title="social-distancing-net.analyzer" href="analyzer.html">social-distancing-net.analyzer</a></code></li>
 <li><code><a title="social-distancing-net.bounding_box" href="bounding_box.html">social-distancing-net.bounding_box</a></code></li>
-<li><code><a title="social-distancing-net.people_detection" href="people_detection.html">social-distancing-net.people_detection</a></code></li>
 <li><code><a title="social-distancing-net.people_detection_2" href="people_detection_2.html">social-distancing-net.people_detection_2</a></code></li>
 <li><code><a title="social-distancing-net.person" href="person.html">social-distancing-net.person</a></code></li>
 <li><code><a title="social-distancing-net.reading_script" href="reading_script.html">social-distancing-net.reading_script</a></code></li>
 <li><code><a title="social-distancing-net.sort" href="sort.html">social-distancing-net.sort</a></code></li>
 <li><code><a title="social-distancing-net.tracker" href="tracker.html">social-distancing-net.tracker</a></code></li>
 <li><code><a title="social-distancing-net.transformation" href="transformation.html">social-distancing-net.transformation</a></code></li>
-<li><code><a title="social-distancing-net.venv" href="venv/index.html">social-distancing-net.venv</a></code></li>
 <li><code><a title="social-distancing-net.video_frame" href="video_frame.html">social-distancing-net.video_frame</a></code></li>
 <li><code><a title="social-distancing-net.violation" href="violation.html">social-distancing-net.violation</a></code></li>
-<li><code><a title="social-distancing-net.yolo3_one_file_to_detect_them_all" href="yolo3_one_file_to_detect_them_all.html">social-distancing-net.yolo3_one_file_to_detect_them_all</a></code></li>
 </ul>
 </li>
 </ul>

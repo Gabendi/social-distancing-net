@@ -23,7 +23,7 @@ def help()->None:
     """
     print('\n')
     print('This script is for visualizing bounding-box estimations for detection of human bodies.')
-    print('Usage: python reading_script.py [VideoStream]')
+    print('Usage: python reading_script.py [VideoStream] [Model]')
     print('\n')
 
 
@@ -39,7 +39,7 @@ def runStream(videoUrl, model, sample_rate=0.1):
     Parameters
     ----------
         videoUrl
-            Path of the prerecorded video file, if None the program processes the  webcam stream
+            Path of the prerecorded video file, if '0' the program processes the  webcam stream
         model
             YOLO type, must be yolov3, yolov3-tiny or yolov2-tiny
         sample_rate : float, optional

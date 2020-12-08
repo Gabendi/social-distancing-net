@@ -10,7 +10,9 @@ class Transformation:
     Attributes
     ---------- 
         cameraCalibrationArray
-            contains information about the orientation and placement of the camera
+            containts the x-y pixel coordinates of a square on the ground
+        firstSectionToMeter
+            side length of the square 
         frameWidth: int
             width of the videoFrame
         frameHeight: int
@@ -26,21 +28,10 @@ class Transformation:
 
         self.four_point_transform();
 
-
-    def order_points(self, pts):
-        rect = np.zeros((4, 2), dtype = "float32")
-
-        s = pts.sum(axis = 1)
-        rect[0] = pts[np.argmin(s)]
-        rect[2] = pts[np.argmax(s)]
-
-        diff = np.diff(pts, axis = 1)
-        rect[1] = pts[np.argmin(diff)]
-        rect[3] = pts[np.argmax(diff)]
-
-        return rect
-
     def four_point_transform(self):
+        """
+            Calculates the tranformation matrices
+        """
         rect = self.cameraCallibrationArray
         (tl, tr, br, bl) = rect
 
@@ -78,11 +69,30 @@ class Transformation:
         self.inverseTransformationMatrix = np.dot(np.linalg.pinv(M), np.linalg.pinv(trans))
 
     def transformPoint(self, x, y):
+        """Transforms pixel coordinates to ground coordinates
+
+        Parameters
+        ----------
+            x : int
+            y : int
+
+        Returns
+        -------
+            Tuple[float,float]
+                ground coordinates
+        """
         p = np.dot(self.transformationMatrix, [[x], [y], [1]])
         p = p / p[2]
         return p[0], p[1]
 
     def getTransformedPixelNumberOfMeter(self):
+        """Calculates the coefficient used for converting distance in pixels to distance in meter
+
+        Returns
+        -------
+            float
+                conversion coefficient
+        """
         (tl, tr, br, bl) = self.cameraCallibrationArray
 
         d = Coordinate(tl[0], tl[1]).DistanceFrom(Coordinate(tr[0], tr[1]))

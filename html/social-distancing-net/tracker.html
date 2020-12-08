@@ -39,10 +39,11 @@ class Tracker:
 
     Attributes
     ---------- 
-        minDist: int
+        minDist: float
             People are considered to be in the same group if they are less the minDist meters from each other for enough video frames
     &#34;&#34;&#34;
-    def __init__(self, analyzer, minDist:int = 2) -&gt; None:
+
+    def __init__(self, analyzer, minDist = 100) -&gt; None:
         self._sort=Sort(max_age=10)
         self._analyzer=analyzer
         self._minDist = minDist
@@ -118,13 +119,11 @@ class Tracker:
 
         
 
-    def groupTrajectories(self, dt = 4)-&gt;None:#4 * 30)-&gt;None:
+    def groupTrajectories(self, dt = 100)-&gt;None:#4 * 30)-&gt;None:
         &#34;&#34;&#34;
         Considers two individuals as being in the same group if they are less then d meters apart for at least dt seconds.
         Parameters
         ----------
-            d : int
-                maximum distance
             dt : int
                 minimum seconds (sec * fps)
         &#34;&#34;&#34;
@@ -152,12 +151,12 @@ class Tracker:
 <dl>
 <dt id="social-distancing-net.tracker.Tracker"><code class="flex name class">
 <span>class <span class="ident">Tracker</span></span>
-<span>(</span><span>analyzer, minDist: int = 2)</span>
+<span>(</span><span>analyzer, minDist=100)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Trackes detected person and groups people with close trajectories.</p>
 <h2 id="attributes">Attributes</h2>
-<pre><code>minDist: int
+<pre><code>minDist: float
     People are considered to be in the same group if they are less the minDist meters from each other for enough video frames
 </code></pre></div>
 <details class="source">
@@ -170,10 +169,11 @@ class Tracker:
 
     Attributes
     ---------- 
-        minDist: int
+        minDist: float
             People are considered to be in the same group if they are less the minDist meters from each other for enough video frames
     &#34;&#34;&#34;
-    def __init__(self, analyzer, minDist:int = 2) -&gt; None:
+
+    def __init__(self, analyzer, minDist = 100) -&gt; None:
         self._sort=Sort(max_age=10)
         self._analyzer=analyzer
         self._minDist = minDist
@@ -249,13 +249,11 @@ class Tracker:
 
         
 
-    def groupTrajectories(self, dt = 4)-&gt;None:#4 * 30)-&gt;None:
+    def groupTrajectories(self, dt = 100)-&gt;None:#4 * 30)-&gt;None:
         &#34;&#34;&#34;
         Considers two individuals as being in the same group if they are less then d meters apart for at least dt seconds.
         Parameters
         ----------
-            d : int
-                maximum distance
             dt : int
                 minimum seconds (sec * fps)
         &#34;&#34;&#34;
@@ -308,28 +306,24 @@ box : BoundingBox
 </details>
 </dd>
 <dt id="social-distancing-net.tracker.Tracker.groupTrajectories"><code class="name flex">
-<span>def <span class="ident">groupTrajectories</span></span>(<span>self, dt=4) ‑> NoneType</span>
+<span>def <span class="ident">groupTrajectories</span></span>(<span>self, dt=100) ‑> NoneType</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Considers two individuals as being in the same group if they are less then d meters apart for at least dt seconds.
 Parameters</p>
 <hr>
-<pre><code>d : int
-    maximum distance
-dt : int
+<pre><code>dt : int
     minimum seconds (sec * fps)
 </code></pre></div>
 <details class="source">
 <summary>
 <span>Expand source code</span>
 </summary>
-<pre><code class="python">def groupTrajectories(self, dt = 4)-&gt;None:#4 * 30)-&gt;None:
+<pre><code class="python">def groupTrajectories(self, dt = 100)-&gt;None:#4 * 30)-&gt;None:
     &#34;&#34;&#34;
     Considers two individuals as being in the same group if they are less then d meters apart for at least dt seconds.
     Parameters
     ----------
-        d : int
-            maximum distance
         dt : int
             minimum seconds (sec * fps)
     &#34;&#34;&#34;

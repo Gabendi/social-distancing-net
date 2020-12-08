@@ -50,17 +50,19 @@ class Analyzer:
         activePeople: Person[]
             people currently on video
     &#34;&#34;&#34;
-    def __init__(self, transformation)-&gt;None:
+    def __init__(self, transformation, model)-&gt;None:
         self.transformation = transformation
 
         self.video:List[VideoFrame]=[]
         self.violations:List[Violation]=[]
         self.activePeople:List[Person]=[]
-        self._tracker=Tracker(self,transformation.transformedFrameWidth * 1.8)
-        self._peopledetector=PeopleDetector()
+        self._tracker=Tracker(self,transformation.getTransformedPixelNumberOfMeter() * 1.8)
+        self._peopledetector=PeopleDetector(model = model)
 
         #Callibration calculations
-        self.calculateDistanceViolations = CalculateDistanceViolations(transformation.transformedFrameWidth * 1.8)
+        print(&#34;1 meter:&#34;)
+        print(transformation.getTransformedPixelNumberOfMeter() * 1.8)
+        self.calculateDistanceViolations = CalculateDistanceViolations(transformation.getTransformedPixelNumberOfMeter() * 1.8)
 
 
         
@@ -79,6 +81,7 @@ class Analyzer:
         boundingboxes, scores=self._peopledetector.detect(video_frame)
 
         self._tracker.updateTrajectories(video_frame, boundingboxes, scores)
+        
         self._tracker.groupTrajectories()
 
         self.violations = self.calculateDistanceViolations.CalculateViolations(self.activePeople)
@@ -98,7 +101,7 @@ class Analyzer:
 <dl>
 <dt id="social-distancing-net.analyzer.Analyzer"><code class="flex name class">
 <span>class <span class="ident">Analyzer</span></span>
-<span>(</span><span>transformation)</span>
+<span>(</span><span>transformation, model)</span>
 </code></dt>
 <dd>
 <div class="desc"><p>Analyzes the CCTV footage.</p>
@@ -129,17 +132,19 @@ activePeople: Person[]
         activePeople: Person[]
             people currently on video
     &#34;&#34;&#34;
-    def __init__(self, transformation)-&gt;None:
+    def __init__(self, transformation, model)-&gt;None:
         self.transformation = transformation
 
         self.video:List[VideoFrame]=[]
         self.violations:List[Violation]=[]
         self.activePeople:List[Person]=[]
-        self._tracker=Tracker(self,transformation.transformedFrameWidth * 1.8)
-        self._peopledetector=PeopleDetector()
+        self._tracker=Tracker(self,transformation.getTransformedPixelNumberOfMeter() * 1.8)
+        self._peopledetector=PeopleDetector(model = model)
 
         #Callibration calculations
-        self.calculateDistanceViolations = CalculateDistanceViolations(transformation.transformedFrameWidth * 1.8)
+        print(&#34;1 meter:&#34;)
+        print(transformation.getTransformedPixelNumberOfMeter() * 1.8)
+        self.calculateDistanceViolations = CalculateDistanceViolations(transformation.getTransformedPixelNumberOfMeter() * 1.8)
 
 
         
@@ -158,6 +163,7 @@ activePeople: Person[]
         boundingboxes, scores=self._peopledetector.detect(video_frame)
 
         self._tracker.updateTrajectories(video_frame, boundingboxes, scores)
+        
         self._tracker.groupTrajectories()
 
         self.violations = self.calculateDistanceViolations.CalculateViolations(self.activePeople)
@@ -195,6 +201,7 @@ Updates, the violations array with the new violations found</p>
     boundingboxes, scores=self._peopledetector.detect(video_frame)
 
     self._tracker.updateTrajectories(video_frame, boundingboxes, scores)
+    
     self._tracker.groupTrajectories()
 
     self.violations = self.calculateDistanceViolations.CalculateViolations(self.activePeople)</code></pre>

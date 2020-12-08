@@ -8,9 +8,9 @@ class Coordinate:
 
         Attributes
         ----------
-            x: int
+            x: float
                 x coordinate of the point
-            y: int
+            y: float
                 y coordinate of the point
     """
     def __init__(self,x,y):
