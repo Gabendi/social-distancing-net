@@ -12,7 +12,7 @@ A feldolgozás végeztével a program egy hőtérképen jelzi a legzsúfoltabb h
 
 A program által készített elemzés megtekintése, illetve a hőtérkép alapos vizsgálata segítheti a bolt tulajdonosokat, hogy úgy alakítsák ki belső tereiket, hogy a lehető legalacsonyabb legyen a fertőzés kockázata, illetve az önkormányzatokat a közterek hasonló célú átrendezésében.
 
-Útmutató a program telepítéséhez, használatához, továbbá a forráskód dokumentációja [itt](html/social-distancing-net/index.html) érhető el.
+Útmutató a program telepítéséhez, használatához, továbbá a forráskód dokumentációja [itt](https://gabendi.github.io/social-distancing-net/) érhető el.
 
 ## Elemzés menete
 
